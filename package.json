@@ -1,0 +1,32 @@
+{
+  "name": "calnatsci-ts",
+  "version": "1.0.2",
+  "description": "CalNatSci Bot rewritten in TypeScript",
+  "main": "./dist/index.js",
+  "scripts": {
+    "start": "node .",
+    "build": "tsc",
+    "dev:start": "node -r dotenv/config .",
+    "ts:start": "ts-node -r dotenv/config ./src/index.ts",
+    "js:watch": "nodemon -r dotenv/config .",
+    "ts:watch": "tsc --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/redstripez08/CalNatSci-TS.git"
+  },
+  "author": "Angelo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/redstripez08/CalNatSci-TS/issues"
+  },
+  "homepage": "https://github.com/redstripez08/CalNatSci-TS#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "discord.js": "^12.5.1"
+  },
+  "devDependencies": {
+    "@types/node": "^14.14.25",
+    "dotenv": "^8.2.0"
+  }
+}
