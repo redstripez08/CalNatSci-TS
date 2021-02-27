@@ -14,7 +14,7 @@ export interface Command {
      * @param   message       Discord Message
      * @param   args          Arguments passed by user
      * */
-    execute(message: Discord.Message, args?: string[]): Promise<void> | void;
+    execute(message: Discord.Message, args: string[]): Promise<void> | void;
 }
 
 export interface LinkOptions {
@@ -22,4 +22,5 @@ export interface LinkOptions {
     base?: string | URL;
     querystring?: ParsedUrlQueryInput;
     headers?: object;
+    method?:  "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 }
