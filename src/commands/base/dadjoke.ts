@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Link from '../../classes/Link';
 import { Command } from '../../typings';
-import charChecker from '../../utils/charChecker';
+import { charCounter } from '../../utils';
 
 export default {
     name: "dadjoke",
@@ -17,7 +17,7 @@ export default {
 
         try {
             const res = await axios.get(link.href, {headers: link.headers});
-            message.channel.send(charChecker(res.data, 2048, true));            
+            message.channel.send(charCounter(res.data, 2048, true));            
         } catch (error) {
             console.error(error);   
         }

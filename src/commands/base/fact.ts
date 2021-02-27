@@ -1,5 +1,5 @@
 import { Command } from "../../typings";
-import { randomHex, axiosErrorHandler } from "../../utils";
+import { randomHex, axiosErrorHandler, charCounter } from "../../utils";
 import Link from "../../classes/Link";
 import { MessageEmbed } from "discord.js";
 import axios, { AxiosResponse } from "axios";
@@ -31,14 +31,14 @@ export default {
         });
 
         try {
-            const res: Response = await axios.get(link.href, {headers: link.headers});
+            const { data }: Response = await axios.get(link.href, {headers: link.headers});
             
             const embed = new MessageEmbed()
                 .setTitle("Random Fact")
                 .setColor(randomHex())
-                .setURL(res.data.permalink)
-                .setDescription(res.data.text)
-                .setFooter(`Source: ${res.data.source}`)
+                .setURL(data.permalink)
+                .setDescription(charCounter(data.text, 2048, true))
+                .setFooter(`Source: ${data.source}`)
 
             message.channel.send(embed);
         } catch (error) {

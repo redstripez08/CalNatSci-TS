@@ -10,7 +10,7 @@ export default {
     guildOnly: false,
     argsRequired: false,
     rolesRequired: [],
-    async execute(message, args) {
+    async execute(message) {
         try {
             const initEmbed = new MessageEmbed()
                 .setColor("#fff")
