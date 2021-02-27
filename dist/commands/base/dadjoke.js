@@ -5,7 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
 const Link_1 = __importDefault(require("../../classes/Link"));
-const charChecker_1 = __importDefault(require("../../utils/charChecker"));
+const utils_1 = require("../../utils");
 exports.default = {
     name: "dadjoke",
     aliases: ["djk", "dadjk"],
@@ -19,7 +19,7 @@ exports.default = {
         const link = new Link_1.default("https://icanhazdadjoke.com/", { headers: { "Accept": "text/plain" } });
         try {
             const res = await axios_1.default.get(link.href, { headers: link.headers });
-            message.channel.send(charChecker_1.default(res.data, 2048, true));
+            message.channel.send(utils_1.charCounter(res.data, 2048, true));
         }
         catch (error) {
             console.error(error);

@@ -32,12 +32,14 @@ class Link extends URL {
         typeof base === "string" || base instanceof URL ? super(url, base) : super(url);
         if (base) {
             if (typeof base !== "string" && !(base instanceof URL)) {
+                this.method = base.method ? base.method : undefined;
                 this.headers = base.headers ? base.headers : undefined;
                 this.search = base.querystring ? querystring.stringify(base.querystring) : this.search;
             }
             else if (options) {
-                this.search = options.querystring ? querystring.stringify(options.querystring) : this.search;
+                this.method = options.method ? options.method : undefined;
                 this.headers = options.headers ? options.headers : undefined;
+                this.search = options.querystring ? querystring.stringify(options.querystring) : this.search;
             }
         }
     }

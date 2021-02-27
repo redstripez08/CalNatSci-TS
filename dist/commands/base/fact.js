@@ -22,13 +22,13 @@ exports.default = {
             headers: { "Accept": "applicaton/json" },
         });
         try {
-            const res = await axios_1.default.get(link.href, { headers: link.headers });
+            const { data } = await axios_1.default.get(link.href, { headers: link.headers });
             const embed = new discord_js_1.MessageEmbed()
                 .setTitle("Random Fact")
                 .setColor(utils_1.randomHex())
-                .setURL(res.data.permalink)
-                .setDescription(res.data.text)
-                .setFooter(`Source: ${res.data.source}`);
+                .setURL(data.permalink)
+                .setDescription(utils_1.charCounter(data.text, 2048, true))
+                .setFooter(`Source: ${data.source}`);
             message.channel.send(embed);
         }
         catch (error) {

@@ -10,7 +10,7 @@ exports.default = {
     guildOnly: false,
     argsRequired: false,
     rolesRequired: [],
-    async execute(message, args) {
+    async execute(message) {
         try {
             const initEmbed = new discord_js_1.MessageEmbed()
                 .setColor("#fff")

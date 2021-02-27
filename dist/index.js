@@ -26,7 +26,7 @@ class Client extends Discord.Client {
 }
 const client = new Client({ ws: { intents: Discord.Intents.ALL } });
 const commands = client.commands = new Discord.Collection();
-const prefix = "t!";
+client.prefix = process.env.PREFIX ?? "t!";
 (async () => {
     const commandFiles = {
         base: (await fs.promises.readdir(path.resolve(__dirname, "./commands/base/"))).filter(file => /\.js$|\.ts$/.test(file)),
@@ -36,13 +36,17 @@ const prefix = "t!";
         const command = require(`./commands/base/${commandFile}`).default;
         commands.set(command.name, command);
     }
+    for (const commandFile of commandFiles.ready) {
+        const command = require(`./commands/ready/${commandFile}`).default;
+        command.execute();
+    }
     client.on("ready", () => {
         console.log(`${client.user?.username} Activated.`);
     });
     client.on("message", message => {
-        if (!message.content.startsWith(prefix) || message.author.bot)
+        if (!message.content.startsWith(client.prefix) || message.author.bot)
             return;
-        const args = message.content.slice(prefix.length).trim().split(/ +/g);
+        const args = message.content.slice(client.prefix.length).trim().split(/ +/g);
         const commandName = args.shift()?.toLowerCase();
         if (!commandName)
             return;
@@ -50,7 +54,7 @@ const prefix = "t!";
         if (!command)
             return;
         if (command.argsRequired && !args.length) {
-            const reply = `**Args required!**${command.usage ? `\nUsage: \`${prefix}${commandName} ${command.usage}\`` : ""}`;
+            const reply = `**Args required!**${command.usage ? `\nUsage: \`${client.prefix}${commandName} ${command.usage}\`` : ""}`;
             return message.channel.send(reply);
         }
         try {
