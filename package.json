@@ -1,6 +1,6 @@
 {
   "name": "calnatsci-ts",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "CalNatSci Bot rewritten in TypeScript",
   "main": "./dist/index.js",
   "scripts": {
@@ -23,10 +23,13 @@
   "homepage": "https://github.com/redstripez08/CalNatSci-TS#readme",
   "dependencies": {
     "axios": "^0.21.1",
-    "discord.js": "^12.5.1"
+    "discord.js": "^12.5.1",
+    "luxon": "^1.26.0"
   },
   "devDependencies": {
+    "@types/luxon": "^1.26.0",
     "@types/node": "^14.14.25",
-    "dotenv": "^8.2.0"
+    "dotenv": "^8.2.0",
+    "prisma": "^2.17.0"
   }
 }
