@@ -1,4 +1,5 @@
 import * as Discord from "discord.js";
+import Client from "../classes/Client";
 
 export interface Command {
     name: string;
@@ -15,6 +16,11 @@ export interface Command {
      * @param   args          Arguments passed by user
      * */
     execute(message: Discord.Message, args: string[]): Promise<void> | void;
+}
+
+export interface ReadyCommand {
+    name:string,
+    execute(client: Client): Promise<void> | void;
 }
 
 export interface LinkOptions {
