@@ -1,18 +1,16 @@
 import * as Discord from "discord.js";
 import * as fs from "fs";
 import * as path from "path";
-import { Command } from "./typings";
-
-class Client extends Discord.Client {
-    commands!: Discord.Collection<Command["name"], Command>;
-    prefix!: string;
-}
+import { Command, ReadyCommand } from "./typings";
+import { Client } from "./classes";
 
 const client = new Client({ws:{intents: Discord.Intents.ALL}});
 const commands = client.commands = new Discord.Collection();
+const readyCommands = new Discord.Collection<ReadyCommand["name"], ReadyCommand>();
 client.prefix = process.env.PREFIX ?? "t!";
 
 (async() => {
+    // Get and Cache Command Files
     const commandFiles = {
         base: (await fs.promises.readdir(path.resolve(__dirname, "./commands/base/"))).filter(file => /\.js$|\.ts$/.test(file)),
         ready: (await fs.promises.readdir(path.resolve(__dirname, "./commands/ready/"))).filter(file => /\.js$|\.ts$/.test(file)),
@@ -24,17 +22,20 @@ client.prefix = process.env.PREFIX ?? "t!";
     }
 
     for (const commandFile of commandFiles.ready) {
-        const command = require(`./commands/ready/${commandFile}`).default;
-        command.execute();
+        const command: ReadyCommand = require(`./commands/ready/${commandFile}`).default;
+        readyCommands.set(command.name, command);
     }
-
+    
     client.on("ready", () => {
+        for (const command of readyCommands.values()) {
+            command.execute(client);
+        }
+
         console.log(`${client.user?.username} Activated.`);
-        
     });
 
     client.on("message", message => {
-        if (!message.content.startsWith(client.prefix) || message.author.bot) return;
+        if (!message.content.toLowerCase().startsWith(client.prefix) || message.author.bot) return;
         const args = message.content.slice(client.prefix.length).trim().split(/ +/g);
         const commandName = args.shift()?.toLowerCase();
         if (!commandName) return;
@@ -51,7 +52,7 @@ client.prefix = process.env.PREFIX ?? "t!";
             command.execute(message, args);
         } catch (error) {
             console.error(error);
-            message.channel.send(`There was an Error!\n${error}`);
+            message.channel.send(`There was an error executing the command!\n\`${error}\``);
         }
     });
 
