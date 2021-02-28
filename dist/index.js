@@ -22,12 +22,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const Discord = __importStar(require("discord.js"));
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
-class Client extends Discord.Client {
-}
-const client = new Client({ ws: { intents: Discord.Intents.ALL } });
+const classes_1 = require("./classes");
+const client = new classes_1.Client({ ws: { intents: Discord.Intents.ALL } });
 const commands = client.commands = new Discord.Collection();
+const readyCommands = new Discord.Collection();
 client.prefix = process.env.PREFIX ?? "t!";
 (async () => {
+    // Get and Cache Command Files
     const commandFiles = {
         base: (await fs.promises.readdir(path.resolve(__dirname, "./commands/base/"))).filter(file => /\.js$|\.ts$/.test(file)),
         ready: (await fs.promises.readdir(path.resolve(__dirname, "./commands/ready/"))).filter(file => /\.js$|\.ts$/.test(file)),
@@ -38,13 +39,16 @@ client.prefix = process.env.PREFIX ?? "t!";
     }
     for (const commandFile of commandFiles.ready) {
         const command = require(`./commands/ready/${commandFile}`).default;
-        command.execute();
+        readyCommands.set(command.name, command);
     }
     client.on("ready", () => {
+        for (const command of readyCommands.values()) {
+            command.execute(client);
+        }
         console.log(`${client.user?.username} Activated.`);
     });
     client.on("message", message => {
-        if (!message.content.startsWith(client.prefix) || message.author.bot)
+        if (!message.content.toLowerCase().startsWith(client.prefix) || message.author.bot)
             return;
         const args = message.content.slice(client.prefix.length).trim().split(/ +/g);
         const commandName = args.shift()?.toLowerCase();
@@ -62,7 +66,7 @@ client.prefix = process.env.PREFIX ?? "t!";
         }
         catch (error) {
             console.error(error);
-            message.channel.send(`There was an Error!\n${error}`);
+            message.channel.send(`There was an error executing the command!\n\`${error}\``);
         }
     });
     client.login();
