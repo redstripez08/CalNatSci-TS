@@ -23,10 +23,12 @@ const Discord = __importStar(require("discord.js"));
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const classes_1 = require("./classes");
+const client_1 = require("@prisma/client");
 const client = new classes_1.Client({ ws: { intents: Discord.Intents.ALL } });
 const commands = client.commands = new Discord.Collection();
 const readyCommands = new Discord.Collection();
 client.prefix = process.env.PREFIX ?? "t!";
+const prisma = new client_1.PrismaClient();
 (async () => {
     // Get and Cache Command Files
     const commandFiles = {
@@ -68,6 +70,24 @@ client.prefix = process.env.PREFIX ?? "t!";
             console.error(error);
             message.channel.send(`There was an error executing the command!\n\`${error}\``);
         }
+    });
+    client.on("messageDelete", async (message) => {
+        // Saves Deleted messages in a SQLite3 database for `snipe` command.
+        try {
+            await prisma.snipes.update({
+                where: {
+                    id: 1
+                },
+                data: {
+                    author: message.author?.username ?? "Unknown",
+                    content: message.content ?? "Content_Not_Found"
+                }
+            });
+        }
+        catch (error) {
+            console.log(error);
+        }
+        prisma.$disconnect();
     });
     client.login();
 })();
