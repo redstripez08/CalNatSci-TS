@@ -54,9 +54,11 @@ export default {
                     const wikiPage = query.pages[id];
                     if (!wikiPage.extract) return message.channel.send("Not Found!\nTry being more specific.");
 
+                    const wikiURL = `https://en.wikipedia.org/wiki/${wikiPage.title.replace(/ +/g, "_")}`;
                     const embed = new MessageEmbed()
                         .setTitle(wikiPage.title)
                         .setColor(randomHex())
+                        .setURL(wikiURL)
                         .setDescription(charCounter(wikiPage.extract, 2048, true))
                         .setFooter("Wikipedia", "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Wikipedia-logo-en-big.png/490px-Wikipedia-logo-en-big.png");
 
