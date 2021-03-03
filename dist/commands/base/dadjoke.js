@@ -22,7 +22,7 @@ exports.default = {
             message.channel.send(utils_1.charCounter(res.data, 2048, true));
         }
         catch (error) {
-            console.error(error);
+            utils_1.axiosErrorHandler(message, error);
         }
     }
 };

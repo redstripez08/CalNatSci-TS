@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
+const utils_1 = require("../../utils");
 exports.default = {
     name: "ping",
     aliases: [],
@@ -13,11 +14,11 @@ exports.default = {
     async execute(message) {
         try {
             const initEmbed = new discord_js_1.MessageEmbed()
-                .setColor("#fff")
+                .setColor(utils_1.randomHex())
                 .setTitle("Calculating Ping...");
             const sentMsg = await message.channel.send(initEmbed);
             const finalEmbed = new discord_js_1.MessageEmbed()
-                .setColor("#fff000")
+                .setColor(utils_1.randomHex())
                 .setTitle(":ping_pong: **Pong!**")
                 .setDescription(`Ping is **\`${sentMsg.createdTimestamp - message.createdTimestamp}ms\`**`);
             sentMsg.edit(finalEmbed);

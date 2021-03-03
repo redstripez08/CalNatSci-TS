@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const utils_1 = require("../../utils");
-const Link_1 = __importDefault(require("../../classes/Link"));
+const classes_1 = require("../../classes");
 const discord_js_1 = require("discord.js");
 const axios_1 = __importDefault(require("axios"));
 exports.default = {
@@ -17,7 +17,7 @@ exports.default = {
     argsRequired: false,
     rolesRequired: [],
     async execute(message, args) {
-        const link = new Link_1.default("/random.json", "https://uselessfacts.jsph.pl/", {
+        const link = new classes_1.Link("/random.json", "https://uselessfacts.jsph.pl/", {
             querystring: { language: "en" },
             headers: { "Accept": "applicaton/json" },
         });

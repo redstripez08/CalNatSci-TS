@@ -18,17 +18,22 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const Discord = __importStar(require("discord.js"));
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const classes_1 = require("./classes");
-const client_1 = require("@prisma/client");
-const client = new classes_1.Client({ ws: { intents: Discord.Intents.ALL } });
+const PrismaClient_1 = __importDefault(require("./classes/PrismaClient"));
+const utils_1 = require("./utils");
+const client = new classes_1.Client({
+    ws: { intents: Discord.Intents.ALL }
+});
 const commands = client.commands = new Discord.Collection();
 const readyCommands = new Discord.Collection();
 client.prefix = process.env.PREFIX ?? "t!";
-const prisma = new client_1.PrismaClient();
 (async () => {
     // Get and Cache Command Files
     const commandFiles = {
@@ -43,7 +48,16 @@ const prisma = new client_1.PrismaClient();
         const command = require(`./commands/ready/${commandFile}`).default;
         readyCommands.set(command.name, command);
     }
-    client.on("ready", () => {
+    client.on("ready", async () => {
+        try {
+            await PrismaClient_1.default.$connect();
+            console.log("[Prisma 2 | SQLite3] Connected to Snipe.db");
+        }
+        catch (error) {
+            if (utils_1.checkNodeEnv("production"))
+                throw new Error(error);
+            console.error(error);
+        }
         for (const command of readyCommands.values()) {
             command.execute(client);
         }
@@ -74,7 +88,7 @@ const prisma = new client_1.PrismaClient();
     client.on("messageDelete", async (message) => {
         // Saves Deleted messages in a SQLite3 database for `snipe` command.
         try {
-            await prisma.snipes.update({
+            await PrismaClient_1.default.snipes.update({
                 where: {
                     id: 1
                 },
@@ -85,9 +99,13 @@ const prisma = new client_1.PrismaClient();
             });
         }
         catch (error) {
-            console.log(error);
+            console.error(error);
         }
-        prisma.$disconnect();
     });
-    client.login();
+    try {
+        await client.login();
+    }
+    catch (error) {
+        throw new Error(error);
+    }
 })();
