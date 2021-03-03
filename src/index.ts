@@ -3,14 +3,16 @@ import * as fs from "fs";
 import * as path from "path";
 import { Command, ReadyCommand } from "./typings";
 import { Client } from "./classes";
-import { PrismaClient } from "@prisma/client";
+import prisma from "./classes/PrismaClient";
+import { checkNodeEnv } from "./utils";
 
-const client = new Client({ws:{intents: Discord.Intents.ALL}});
+const client = new Client({
+    ws: {intents: Discord.Intents.ALL}
+});
+
 const commands = client.commands = new Discord.Collection();
 const readyCommands = new Discord.Collection<ReadyCommand["name"], ReadyCommand>();
 client.prefix = process.env.PREFIX ?? "t!";
-
-const prisma = new PrismaClient();
 
 (async() => {
     // Get and Cache Command Files
@@ -18,7 +20,7 @@ const prisma = new PrismaClient();
         base: (await fs.promises.readdir(path.resolve(__dirname, "./commands/base/"))).filter(file => /\.js$|\.ts$/.test(file)),
         ready: (await fs.promises.readdir(path.resolve(__dirname, "./commands/ready/"))).filter(file => /\.js$|\.ts$/.test(file)),
     };
-
+    
     for (const commandFile of commandFiles.base) {
         const command: Command = require(`./commands/base/${commandFile}`).default;
         commands.set(command.name, command);
@@ -30,7 +32,15 @@ const prisma = new PrismaClient();
     }
     
     
-    client.on("ready", () => {
+    client.on("ready", async () => {
+        try {
+            await prisma.$connect();
+            console.log("[Prisma 2 | SQLite3] Connected to Snipe.db");
+        } catch (error) {
+            if (checkNodeEnv("production")) throw new Error(error); 
+            console.error(error);
+        }
+
         for (const command of readyCommands.values()) {
             command.execute(client);
         }
@@ -53,6 +63,8 @@ const prisma = new PrismaClient();
             return message.channel.send(reply);
         }
 
+        
+
         try {
             command.execute(message, args);
         } catch (error) {
@@ -73,12 +85,15 @@ const prisma = new PrismaClient();
                     author: message.author?.username ?? "Unknown",
                     content: message.content ?? "Content_Not_Found"
                 }
-            });
+            });  
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
-        prisma.$disconnect();
     });
 
-    client.login();
+    try {
+        await client.login();
+    } catch (error) {
+        throw new Error(error);
+    }
 })();
