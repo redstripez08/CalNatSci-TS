@@ -1,5 +1,6 @@
 import { MessageEmbed } from "discord.js";
 import { Command } from "../../typings";
+import { randomHex } from "../../utils";
 
 export default {
     name: "ping",
@@ -13,12 +14,12 @@ export default {
     async execute(message) {
         try {
             const initEmbed = new MessageEmbed()
-                .setColor("#fff")
+                .setColor(randomHex())
                 .setTitle("Calculating Ping...");
     
             const sentMsg = await message.channel.send(initEmbed);
             const finalEmbed = new MessageEmbed()
-                .setColor("#fff000")
+                .setColor(randomHex())
                 .setTitle(":ping_pong: **Pong!**")
                 .setDescription(`Ping is **\`${sentMsg.createdTimestamp - message.createdTimestamp}ms\`**`);
     
