@@ -12,6 +12,7 @@ const client = new Client({
 
 const commands = client.commands = new Discord.Collection();
 const readyCommands = new Discord.Collection<ReadyCommand["name"], ReadyCommand>();
+const cooldowns = new Discord.Collection<string, Discord.Collection<string, number>>();
 client.prefix = process.env.PREFIX ?? "t!";
 
 (async() => {
@@ -58,15 +59,38 @@ client.prefix = process.env.PREFIX ?? "t!";
         const command = commands.get(commandName) || commands.find(cmd => cmd.aliases.includes(commandName));
         if (!command) return;
 
+
         if (command.argsRequired && !args.length) {
             const reply = `**Args required!**${command.usage ? `\nUsage: \`${client.prefix}${commandName} ${command.usage}\`` : ""}`;
             return message.channel.send(reply);
         }
 
+        // Sets cooldown for each command
+        if (!cooldowns.has(command.name)) {
+            cooldowns.set(command.name, new Discord.Collection()); 
+        }
+    
+        const now = Date.now();
+        const timestamps = cooldowns.get(command.name);
+        const cooldownAmount = (command.cooldown ?? 0) * 1000;
+        if (!timestamps) return console.error("Timestamp not found for some reason");
+    
+        if (timestamps.has(message.author.id)) {
+            const expirationTime = (timestamps.get(message.author.id) ?? 0) + cooldownAmount;
+            if (now < expirationTime) {
+                const timeLeft = (expirationTime - now) / 1000;
+                const text = `Please wait **${timeLeft.toFixed(1)}** ` +
+                `more second(s) before reusing the \`${command.name}\` command.`;
+    
+                return message.channel.send(text);
+            }
+        }
         
-
         try {
             command.execute(message, args);
+            // Set Cooldown
+            timestamps.set(message.author.id, now);
+            setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
         } catch (error) {
             console.error(error);
             message.channel.send(`There was an error executing the command!\n\`${error}\``);
@@ -85,7 +109,7 @@ client.prefix = process.env.PREFIX ?? "t!";
                     author: message.author?.username ?? "Unknown",
                     content: message.content ?? "Content_Not_Found"
                 }
-            });  
+            });
         } catch (error) {
             console.error(error);
         }
