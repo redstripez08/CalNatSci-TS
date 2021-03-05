@@ -1,13 +1,13 @@
 {
   "name": "calnatsci-ts",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "CalNatSci Bot rewritten in TypeScript",
   "main": "./dist/index.js",
   "scripts": {
     "build": "tsc",
     "start": "node .",
-    "dev:start": "node -r dotenv/config .",
-    "dev:watch": "nodemon -r dotenv/config .",
+    "dev:start": "node --trace-warnings -r dotenv/config .",
+    "dev:watch": "nodemon --trace-warnings -r dotenv/config .",
     "ts:start": "ts-node -r dotenv/config ./src/index.ts",
     "ts:watch": "tsc --watch"
   },
