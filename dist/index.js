@@ -33,6 +33,7 @@ const client = new classes_1.Client({
 });
 const commands = client.commands = new Discord.Collection();
 const readyCommands = new Discord.Collection();
+const cooldowns = new Discord.Collection();
 client.prefix = process.env.PREFIX ?? "t!";
 (async () => {
     // Get and Cache Command Files
@@ -77,8 +78,29 @@ client.prefix = process.env.PREFIX ?? "t!";
             const reply = `**Args required!**${command.usage ? `\nUsage: \`${client.prefix}${commandName} ${command.usage}\`` : ""}`;
             return message.channel.send(reply);
         }
+        // Sets cooldown for each command
+        if (!cooldowns.has(command.name)) {
+            cooldowns.set(command.name, new Discord.Collection());
+        }
+        const now = Date.now();
+        const timestamps = cooldowns.get(command.name);
+        const cooldownAmount = (command.cooldown ?? 0) * 1000;
+        if (!timestamps)
+            return console.error("Timestamp not found for some reason");
+        if (timestamps.has(message.author.id)) {
+            const expirationTime = (timestamps.get(message.author.id) ?? 0) + cooldownAmount;
+            if (now < expirationTime) {
+                const timeLeft = (expirationTime - now) / 1000;
+                const text = `Please wait **${timeLeft.toFixed(1)}** ` +
+                    `more second(s) before reusing the \`${command.name}\` command.`;
+                return message.channel.send(text);
+            }
+        }
         try {
             command.execute(message, args);
+            // Set Cooldown
+            timestamps.set(message.author.id, now);
+            setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
         }
         catch (error) {
             console.error(error);
