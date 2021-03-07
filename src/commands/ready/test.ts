@@ -2,7 +2,7 @@ import { ReadyCommand } from "../../typings";
 
 export default {
     name: "test",
-    execute() {
-        console.log("Still WIP");
+    async execute() {
+        // Test stuff
     }
 } as ReadyCommand;
