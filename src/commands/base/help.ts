@@ -47,11 +47,11 @@ export default {
         
         const name = args[0].toLowerCase();
         const command = commands.get(name) ?? commands.find(c => c.aliases && c.aliases.includes(name));
-        if (!command) return message.reply('that\'s not a valid command!');
+        if (!command) return message.reply("that's not a valid command!");
 
         const checkAlias = (aliases: string[]) => (!aliases || !aliases.length) ? "No Aliases" : aliases.join("`, `"); 
         const checkCooldown = (cooldown: number) => (!cooldown || cooldown === 0) ? "None" : `${cooldown} seconds`; 
-        const checkUsage = (usage: string) => !usage ? "" : ` ${usage}`;
+        const checkUsage = (usage: string | null) => usage ? ` ${usage}`: "";
         const checkFlags = (flags: string[]) => (!flags || !flags.length) ? "No Flags" : flags.join("`, `") ;
 
         // Add flags
@@ -62,9 +62,11 @@ export default {
             .setDescription(command.description)
             .addFields(
                 {name: "Aliases:", value: `\`${checkAlias(command.aliases)}\``},
-                // {name: "Usage:", value: `\`${prefix}${command.name}${checkUsage(command.usage)}\``},
+                {name: "Usage:", value: `\`${prefix}${command.name}${checkUsage(command.usage)}\``},
                 // {name: "Flags:", value: `\`${checkFlags(command.flags)} \``},
                 {name: "Cooldown:", value: `\`${checkCooldown(command.cooldown)}\``}
             );
+        
+        message.channel.send(cmdInfo);
     }
 } as Command;
