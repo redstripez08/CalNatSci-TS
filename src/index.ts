@@ -53,7 +53,7 @@ client.prefix = process.env.PREFIX ?? "t!";
 
 
     client.on("message", message => {
-        if (!message.content.toLowerCase().startsWith(client.prefix) || message.author.bot) return;
+        if (!message.content.toLowerCase().startsWith(client.prefix) || message.author?.bot) return;
         const args = message.content.slice(client.prefix.length).trim().split(/ +/g);
         const commandName = args.shift()?.toLowerCase();
 
@@ -114,6 +114,9 @@ client.prefix = process.env.PREFIX ?? "t!";
 
 
     client.on("messageDelete", async message => {
+        // Prevent's caching it's own deleted messages
+        if (message.author?.bot) return;
+        
         // Saves Deleted messages in a SQLite3 database for `snipe` command.
         try {
             await prisma.snipes.update({
