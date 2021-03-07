@@ -28,6 +28,9 @@ const alreadyInRoleEmbedBuilder = (user, roleName, _roleName) => new discord_js_
 const rolesRemovedEmbedBuilder = () => new discord_js_1.MessageEmbed()
     .setTitle("All your Section Roles have been removed!")
     .setColor("#00ff00");
+const assignRoleEmbedBuilder = (username, roleName, role) => new discord_js_1.MessageEmbed()
+    .setTitle(`${username} been assigned to ${roleName}`)
+    .setColor(role?.color ?? "#fff");
 const embed = new discord_js_1.MessageEmbed()
     .setColor("#fff")
     .setTitle("React to get Section Role")
@@ -68,6 +71,7 @@ exports.default = {
                 const member = guild.members.cache.get(user.id);
                 for (const roleName in roles) {
                     const role = roles[roleName];
+                    const roleDetails = guild.roles.cache.get(role.id);
                     if (reaction.emoji.name === "❌") {
                         if (member?.roles.cache.has(role.id)) {
                             member.roles.remove(role.id);
@@ -87,7 +91,7 @@ exports.default = {
                             }
                         }
                         member?.roles.add(role.id);
-                        const msg = await channel.send(`You have been assigned to ${roleName}`);
+                        const msg = await channel.send(assignRoleEmbedBuilder(user.username, roleName, roleDetails));
                         msg.delete({ timeout: 5000 });
                         break;
                     }
