@@ -1,6 +1,6 @@
 import { ReadyCommand } from "../../typings";
 import Keyv from "keyv";
-import { MessageEmbed, TextChannel, User } from "discord.js";
+import { MessageEmbed, Role, TextChannel, User } from "discord.js";
 
 interface Roles {
     [role: string]: {
@@ -46,6 +46,11 @@ const rolesRemovedEmbedBuilder = () =>
     new MessageEmbed()
         .setTitle("All your Section Roles have been removed!")
         .setColor("#00ff00");
+
+const assignRoleEmbedBuilder = (username: string, roleName: string, role?: Role) =>
+    new MessageEmbed()
+        .setTitle(`${username} been assigned to ${roleName}`)
+        .setColor(role?.color ?? "#fff");
 
 const embed = new MessageEmbed()
 .setColor("#fff")
@@ -97,7 +102,8 @@ export default {
                 const member = guild.members.cache.get(user.id);
                 for (const roleName in roles) {
                     const role = roles[roleName];
-                    
+                    const roleDetails = guild.roles.cache.get(role.id);
+
                     if (reaction.emoji.name === "❌") {
                         if (member?.roles.cache.has(role.id)) {
                             member.roles.remove(role.id);
@@ -117,9 +123,9 @@ export default {
                                 return;
                             }
                         }
-
+                        
                         member?.roles.add(role.id);
-                        const msg = await channel.send(`You have been assigned to ${roleName}`);
+                        const msg = await channel.send(assignRoleEmbedBuilder(user.username, roleName, roleDetails));
                         msg.delete({timeout: 5000});
                         break;
                     }
