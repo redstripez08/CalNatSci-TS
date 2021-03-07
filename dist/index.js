@@ -51,6 +51,7 @@ client.prefix = process.env.PREFIX ?? "t!";
     }
     client.on("ready", async () => {
         try {
+            // Connect to Prisma Database
             await PrismaClient_1.default.$connect();
             console.log("[Prisma 2 | SQLite3] Connected to Snipe.db");
         }
@@ -59,6 +60,7 @@ client.prefix = process.env.PREFIX ?? "t!";
                 throw new Error(error);
             console.error(error);
         }
+        // Execute Ready Commands
         for (const command of readyCommands.values()) {
             command.execute(client);
         }
@@ -69,11 +71,18 @@ client.prefix = process.env.PREFIX ?? "t!";
             return;
         const args = message.content.slice(client.prefix.length).trim().split(/ +/g);
         const commandName = args.shift()?.toLowerCase();
-        if (!commandName)
-            return;
+        // Occurs if only prefix is typed without a command.
+        if (!commandName) {
+            return message.channel.send(`You need to supply a command, not just the prefix dummy.\nTry \`${client.prefix}help\``);
+        }
         const command = commands.get(commandName) || commands.find(cmd => cmd.aliases.includes(commandName));
         if (!command)
             return;
+        // Checks if command works only for Servers
+        if (command.guildOnly && message.channel.type !== "text") {
+            return message.reply(`\`${client.prefix}${command.name}\` only works for servers.`);
+        }
+        // Checks if arguments are required and returns when args are required and none are found,
         if (command.argsRequired && !args.length) {
             const reply = `**Args required!**${command.usage ? `\nUsage: \`${client.prefix}${commandName} ${command.usage}\`` : ""}`;
             return message.channel.send(reply);
@@ -84,7 +93,7 @@ client.prefix = process.env.PREFIX ?? "t!";
         }
         const now = Date.now();
         const timestamps = cooldowns.get(command.name);
-        const cooldownAmount = (command.cooldown ?? 0) * 1000;
+        const cooldownAmount = command.cooldown * 1000;
         if (!timestamps)
             return console.error("Timestamp not found for some reason");
         if (timestamps.has(message.author.id)) {
@@ -98,9 +107,12 @@ client.prefix = process.env.PREFIX ?? "t!";
         }
         try {
             command.execute(message, args);
-            // Set Cooldown
-            timestamps.set(message.author.id, now);
-            setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+            // Set Cooldown.
+            // If cooldown is 0, it will not set since it is instantaneous. I think this makes it less expensive to run though I may be wrong
+            if (cooldownAmount !== 0) {
+                timestamps.set(message.author.id, now);
+                setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
+            }
         }
         catch (error) {
             console.error(error);

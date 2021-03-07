@@ -44,10 +44,10 @@ exports.default = {
         const name = args[0].toLowerCase();
         const command = commands.get(name) ?? commands.find(c => c.aliases && c.aliases.includes(name));
         if (!command)
-            return message.reply('that\'s not a valid command!');
+            return message.reply("that's not a valid command!");
         const checkAlias = (aliases) => (!aliases || !aliases.length) ? "No Aliases" : aliases.join("`, `");
         const checkCooldown = (cooldown) => (!cooldown || cooldown === 0) ? "None" : `${cooldown} seconds`;
-        const checkUsage = (usage) => !usage ? "" : ` ${usage}`;
+        const checkUsage = (usage) => usage ? ` ${usage}` : "";
         const checkFlags = (flags) => (!flags || !flags.length) ? "No Flags" : flags.join("`, `");
         // Add flags
         const cmdInfo = new discord_js_1.MessageEmbed()
@@ -55,9 +55,9 @@ exports.default = {
             .setThumbnail("https://i.imgur.com/xJf6bqz.png")
             .setTitle(`Command: \`${command.name}\``)
             .setDescription(command.description)
-            .addFields({ name: "Aliases:", value: `\`${checkAlias(command.aliases)}\`` }, 
-        // {name: "Usage:", value: `\`${prefix}${command.name}${checkUsage(command.usage)}\``},
+            .addFields({ name: "Aliases:", value: `\`${checkAlias(command.aliases)}\`` }, { name: "Usage:", value: `\`${prefix}${command.name}${checkUsage(command.usage)}\`` }, 
         // {name: "Flags:", value: `\`${checkFlags(command.flags)} \``},
         { name: "Cooldown:", value: `\`${checkCooldown(command.cooldown)}\`` });
+        message.channel.send(cmdInfo);
     }
 };
