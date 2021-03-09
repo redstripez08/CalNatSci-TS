@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import { Message } from "discord.js";
 
 /**
@@ -5,16 +6,23 @@ import { Message } from "discord.js";
  * @param message   Discord Message
  * @param err       Error to be handled.
  */
-export default function (message: Message, err: any) {
-    if (err.response) {
-        console.error(err.response);
-        // console.error(err.response.status, err.response.statusText, err.response.headers, err.response.config);
-        message.channel.send(`There was an error!\n\`${err.response.status} || ${err.response.statusText}\n${err.response.data.error}\``);
-    } else if (err.request) {
-        console.error(err.request);
-        message.channel.send(`There was an error!\n\`Request made but no Response received\``);
-    } else {
+export default function (message: Message, err: AxiosError) {
+    if (!err.isAxiosError) {
+        console.error("Not an Axios Error!");
         console.error(err);
-        message.channel.send(`There was an error!\n\`${err}\``)
+        return;
     }
+
+    if (err.response) {
+        const text = "There was an error!\n" +
+        `\`HTTP Status ${err.response.status} | ${err.response.statusText}\n${err.message}\`\n\n` +
+        `**Response Data:**\n\`${JSON.stringify(err.response.data)}\``;
+
+        message.channel.send(text);
+    } else if (err.request) {
+        message.channel.send(`There was an error!\n\`Request made but no Response received\n${err.message}\``);
+    } else {
+        message.channel.send(`There was an error!\n\`${err.message}\``);
+    }
+    console.error(err);
 }
