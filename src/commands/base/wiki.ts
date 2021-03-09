@@ -67,7 +67,10 @@ export default {
             }
             
         } catch (error) {
-            axiosErrorHandler(message, error);
+            if (error.isAxiosError) {
+                return axiosErrorHandler(message, error);
+            }
+            console.error(error);
         }
     }
 } as Command;

@@ -15,6 +15,11 @@ interface Response extends AxiosResponse {
     }
 }
 
+const link = new Link("/random.json", "https://uselessfacts.jsph.pl/", {
+    querystring: {language: "en"},
+    headers: {"Accept": "applicaton/json"},
+});
+
 export default {
     name: "fact",
     aliases: ["facts"],
@@ -24,12 +29,7 @@ export default {
     guildOnly: false,
     argsRequired: false,
     rolesRequired: [],
-    async execute(message, args) {
-        const link = new Link("/random.json", "https://uselessfacts.jsph.pl/", {
-            querystring: {language: "en"},
-            headers: {"Accept": "applicaton/json"},
-        });
-
+    async execute(message) {
         try {
             const { data }: Response = await axios.get(link.href, {headers: link.headers});
             
@@ -42,7 +42,10 @@ export default {
 
             message.channel.send(embed);
         } catch (error) {
-            axiosErrorHandler(message, error);
+            if (error.isAxiosError) {
+                return axiosErrorHandler(message, error);
+            }
+            console.error(error);
         }
     }
 } as Command;
