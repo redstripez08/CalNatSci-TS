@@ -37,7 +37,7 @@ client.prefix = process.env.PREFIX ?? "t!";
         try {
             // Connect to Prisma Database
             await prisma.$connect();
-            console.log("[Prisma 2 | SQLite3] Connected to Snipe.db");
+            console.log("[Prisma 2 | SQLite3] Connected to Database.db");
         } catch (error) {
             if (checkNodeEnv("production")) throw new Error(error); 
             console.error(error);
@@ -48,6 +48,7 @@ client.prefix = process.env.PREFIX ?? "t!";
             command.execute(client);
         }
 
+        client.user?.setActivity({name: `${client.prefix}help`, type: "LISTENING"});
         console.log(`${client.user?.username} Activated.`);
     });
 
@@ -84,22 +85,19 @@ client.prefix = process.env.PREFIX ?? "t!";
         const now = Date.now();
         const timestamps = cooldowns.get(command.name);
         const cooldownAmount = command.cooldown * 1000;
-        if (!timestamps) return console.error("Timestamp not found for some reason");
+        if (!timestamps) return console.error("Timestamps not found for some reason despite being set in lines 81-83");
     
         if (timestamps.has(message.author.id)) {
             const expirationTime = (timestamps.get(message.author.id) ?? 0) + cooldownAmount;
             if (now < expirationTime) {
                 const timeLeft = (expirationTime - now) / 1000;
-                const text = `Please wait **${timeLeft.toFixed(1)}** ` +
-                `more second(s) before reusing the \`${command.name}\` command.`;
-    
+                const text = `Please wait **${timeLeft.toFixed(1)}** more second(s) before reusing the \`${command.name}\` command.`;
                 return message.channel.send(text);
             }
         }
         
         try {
             command.execute(message, args);
-
             // Set Cooldown.
             // If cooldown is 0, it will not set since it is instantaneous. I think this makes it less expensive to run though I may be wrong
             if (cooldownAmount !== 0) {
