@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const axios_1 = __importDefault(require("axios"));
 const Link_1 = __importDefault(require("../../classes/Link"));
 const utils_1 = require("../../utils");
+const link = new Link_1.default("https://icanhazdadjoke.com/", { headers: { "Accept": "text/plain" } });
 exports.default = {
     name: "dadjoke",
     aliases: ["djk", "dadjk"],
@@ -16,13 +17,15 @@ exports.default = {
     argsRequired: false,
     rolesRequired: [],
     async execute(message) {
-        const link = new Link_1.default("https://icanhazdadjoke.com/", { headers: { "Accept": "text/plain" } });
         try {
             const res = await axios_1.default.get(link.href, { headers: link.headers });
             message.channel.send(utils_1.charCounter(res.data, 2048, true));
         }
         catch (error) {
-            utils_1.axiosErrorHandler(message, error);
+            if (error.isAxiosError) {
+                return utils_1.axiosErrorHandler(message, error);
+            }
+            console.error(error);
         }
     }
 };

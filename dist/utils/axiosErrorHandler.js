@@ -6,18 +6,23 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @param err       Error to be handled.
  */
 function default_1(message, err) {
+    if (!err.isAxiosError) {
+        console.error("Not an Axios Error!");
+        console.error(err);
+        return;
+    }
     if (err.response) {
-        console.error(err.response);
-        // console.error(err.response.status, err.response.statusText, err.response.headers, err.response.config);
-        message.channel.send(`There was an error!\n\`${err.response.status} || ${err.response.statusText}\n${err.response.data.error}\``);
+        const text = "There was an error!\n" +
+            `\`HTTP Status ${err.response.status} | ${err.response.statusText}\n${err.message}\`\n\n` +
+            `**Response Data:**\n\`${JSON.stringify(err.response.data)}\``;
+        message.channel.send(text);
     }
     else if (err.request) {
-        console.error(err.request);
-        message.channel.send(`There was an error!\n\`Request made but no Response received\``);
+        message.channel.send(`There was an error!\n\`Request made but no Response received\n${err.message}\``);
     }
     else {
-        console.error(err);
-        message.channel.send(`There was an error!\n\`${err}\``);
+        message.channel.send(`There was an error!\n\`${err.message}\``);
     }
+    console.error(err);
 }
 exports.default = default_1;

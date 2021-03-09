@@ -51,7 +51,10 @@ exports.default = {
             }
         }
         catch (error) {
-            utils_1.axiosErrorHandler(message, error);
+            if (error.isAxiosError) {
+                return utils_1.axiosErrorHandler(message, error);
+            }
+            console.error(error);
         }
     }
 };

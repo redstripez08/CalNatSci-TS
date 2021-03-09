@@ -53,7 +53,7 @@ client.prefix = process.env.PREFIX ?? "t!";
         try {
             // Connect to Prisma Database
             await PrismaClient_1.default.$connect();
-            console.log("[Prisma 2 | SQLite3] Connected to Snipe.db");
+            console.log("[Prisma 2 | SQLite3] Connected to Database.db");
         }
         catch (error) {
             if (utils_1.checkNodeEnv("production"))
@@ -64,6 +64,7 @@ client.prefix = process.env.PREFIX ?? "t!";
         for (const command of readyCommands.values()) {
             command.execute(client);
         }
+        client.user?.setActivity({ name: `${client.prefix}help`, type: "LISTENING" });
         console.log(`${client.user?.username} Activated.`);
     });
     client.on("message", message => {
@@ -95,13 +96,12 @@ client.prefix = process.env.PREFIX ?? "t!";
         const timestamps = cooldowns.get(command.name);
         const cooldownAmount = command.cooldown * 1000;
         if (!timestamps)
-            return console.error("Timestamp not found for some reason");
+            return console.error("Timestamps not found for some reason despite being set in lines 81-83");
         if (timestamps.has(message.author.id)) {
             const expirationTime = (timestamps.get(message.author.id) ?? 0) + cooldownAmount;
             if (now < expirationTime) {
                 const timeLeft = (expirationTime - now) / 1000;
-                const text = `Please wait **${timeLeft.toFixed(1)}** ` +
-                    `more second(s) before reusing the \`${command.name}\` command.`;
+                const text = `Please wait **${timeLeft.toFixed(1)}** more second(s) before reusing the \`${command.name}\` command.`;
                 return message.channel.send(text);
             }
         }

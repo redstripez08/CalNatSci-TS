@@ -7,6 +7,10 @@ const utils_1 = require("../../utils");
 const classes_1 = require("../../classes");
 const discord_js_1 = require("discord.js");
 const axios_1 = __importDefault(require("axios"));
+const link = new classes_1.Link("/random.json", "https://uselessfacts.jsph.pl/", {
+    querystring: { language: "en" },
+    headers: { "Accept": "applicaton/json" },
+});
 exports.default = {
     name: "fact",
     aliases: ["facts"],
@@ -16,11 +20,7 @@ exports.default = {
     guildOnly: false,
     argsRequired: false,
     rolesRequired: [],
-    async execute(message, args) {
-        const link = new classes_1.Link("/random.json", "https://uselessfacts.jsph.pl/", {
-            querystring: { language: "en" },
-            headers: { "Accept": "applicaton/json" },
-        });
+    async execute(message) {
         try {
             const { data } = await axios_1.default.get(link.href, { headers: link.headers });
             const embed = new discord_js_1.MessageEmbed()
@@ -32,7 +32,10 @@ exports.default = {
             message.channel.send(embed);
         }
         catch (error) {
-            utils_1.axiosErrorHandler(message, error);
+            if (error.isAxiosError) {
+                return utils_1.axiosErrorHandler(message, error);
+            }
+            console.error(error);
         }
     }
 };
