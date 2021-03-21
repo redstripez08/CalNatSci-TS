@@ -57,7 +57,7 @@ exports.default = {
                 .setAuthor("Author: " + res.author)
                 .setColor(utils_1.randomHex())
                 .setDescription(utils_1.charCounter(definition, 2048, true))
-                .addField("Example", utils_1.charCounter(example, 1024, true))
+                .addField("Example", utils_1.charCounter(example, 1024, true) || "No Example")
                 .setFooter(`${res.thumbs_up} 👍\t${res.thumbs_down} 👎\nWritten on: ${date}`);
             message.channel.send(embed);
         }
