@@ -30,3 +30,8 @@ export interface LinkOptions {
     headers?: object;
     method?:  "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 }
+
+interface Route {
+    router: Router;
+    path: string;
+}
