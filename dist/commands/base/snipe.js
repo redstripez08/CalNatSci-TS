@@ -15,7 +15,6 @@ exports.default = {
     rolesRequired: [],
     async execute(message) {
         try {
-            prisma.$connect();
             const snipedObject = await prisma.snipes.findFirst({
                 where: {
                     id: 1
@@ -31,6 +30,5 @@ exports.default = {
             console.error(error);
             message.channel.send(error);
         }
-        prisma.$disconnect();
     }
 };
