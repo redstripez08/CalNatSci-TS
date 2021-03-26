@@ -27,7 +27,6 @@ const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
 const classes_1 = require("./classes");
 const PrismaClient_1 = __importDefault(require("./classes/PrismaClient"));
-const utils_1 = require("./utils");
 const client = new classes_1.Client({
     ws: { intents: Discord.Intents.ALL }
 });
@@ -50,16 +49,6 @@ client.prefix = process.env.PREFIX ?? "t!";
         readyCommands.set(command.name, command);
     }
     client.on("ready", async () => {
-        try {
-            // Connect to Prisma Database
-            await PrismaClient_1.default.$connect();
-            console.log("[Prisma 2 | SQLite3] Connected to Database.db");
-        }
-        catch (error) {
-            if (utils_1.checkNodeEnv("production"))
-                throw new Error(error);
-            console.error(error);
-        }
         // Execute Ready Commands
         for (const command of readyCommands.values()) {
             command.execute(client);
