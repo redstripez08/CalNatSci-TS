@@ -4,7 +4,6 @@ import * as path from "path";
 import { Command, ReadyCommand } from "./typings";
 import { Client } from "./classes";
 import prisma from "./classes/PrismaClient";
-import { checkNodeEnv } from "./utils";
 
 const client = new Client({
     ws: {intents: Discord.Intents.ALL}
@@ -34,15 +33,6 @@ client.prefix = process.env.PREFIX ?? "t!";
     
     
     client.on("ready", async () => {
-        try {
-            // Connect to Prisma Database
-            await prisma.$connect();
-            console.log("[Prisma 2 | SQLite3] Connected to Database.db");
-        } catch (error) {
-            if (checkNodeEnv("production")) throw new Error(error); 
-            console.error(error);
-        }
-
         // Execute Ready Commands
         for (const command of readyCommands.values()) {
             command.execute(client);
