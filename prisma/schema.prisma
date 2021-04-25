@@ -17,6 +17,12 @@ model Snipes {
   content String
 }
 
+model EditSnipes {
+  id      Int      @id @default(1)
+  author  String
+  content String
+}
+
 model Verses {
   id      Int     @default(autoincrement()) @id
   title   String  @default("this a tile")
