@@ -13,18 +13,18 @@ generator client {
 
 model Snipes {
   id      Int     @id
-  author  String
-  content String
+  author  String  @default("Placeholder Author")
+  content String  @default("Placeholder Content")
 }
 
 model EditSnipes {
-  id      Int      @id @default(1)
-  author  String
-  content String
+  id      Int     @id @default(1)
+  author  String  @default("Placeholder Author")
+  content String  @default("Placeholder Content")
 }
 
 model Verses {
-  id      Int     @default(autoincrement()) @id
-  title   String  @default("this a tile")
-  content String  
+  id      Int    @default(autoincrement()) @id
+  title   String @default("Placeholder Title")
+  content String @default("Placeholder Content")
 }
