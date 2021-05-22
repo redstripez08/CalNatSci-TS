@@ -1,3 +1,4 @@
+import { AxiosRequestConfig } from "axios";
 import * as Discord from "discord.js";
 import Client from "../classes/Client";
 
@@ -23,7 +24,7 @@ export interface ReadyCommand {
     execute(client: Client): Promise<void> | void;
 }
 
-export interface LinkOptions {
+export interface LinkConfig extends AxiosRequestConfig {
     url?: string;
     base?: string | URL;
     querystring?: ParsedUrlQueryInput;
