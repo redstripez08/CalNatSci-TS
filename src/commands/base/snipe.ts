@@ -1,9 +1,7 @@
 import { Command } from "../../typings";
-import { PrismaClient } from "@prisma/client";
+import prisma from "../../classes/PrismaClient";
 import { MessageEmbed } from "discord.js";
 import { randomHex } from "../../utils";
-
-const prisma = new PrismaClient();
 
 export default {
     name: "snipe",
@@ -21,7 +19,7 @@ export default {
                     id: 1
                 }
             });
-            
+
             const embed = new MessageEmbed()
                 .setTitle(snipedObject?.author)
                 .setDescription(snipedObject?.content)
