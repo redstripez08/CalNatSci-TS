@@ -2,7 +2,7 @@ import { Command } from "../../typings";
 import { randomHex, axiosErrorHandler, charCounter } from "../../utils";
 import { Link } from "../../classes";
 import { MessageEmbed } from "discord.js";
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 
 interface Response extends AxiosResponse {
     data: {
@@ -31,7 +31,7 @@ export default {
     rolesRequired: [],
     async execute(message) {
         try {
-            const { data }: Response = await axios.get(link.href, {headers: link.headers});
+            const { data }: Response = await link.get();
             
             const embed = new MessageEmbed()
                 .setTitle("Random Fact")

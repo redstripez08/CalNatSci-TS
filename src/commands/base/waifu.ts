@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import { Link } from "../../classes";
 import { Command } from "../../typings";
 import { axiosErrorHandler, randomHex } from "../../utils";
@@ -27,7 +27,7 @@ export default {
                 }
             });
 
-            const res: Response = await axios.get(link.href, {headers: link.headers});
+            const res: Response = await link.get();
             const embed = new MessageEmbed()
                 .setImage(res.data.url)
                 .setColor(randomHex());

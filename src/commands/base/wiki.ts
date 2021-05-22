@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import { MessageEmbed } from "discord.js";
 import { Link } from "../../classes";
 import { Command } from "../../typings";
@@ -46,7 +46,7 @@ export default {
                 }
             });
 
-            const { data }: Response = await axios.get(link.href, {headers: link.headers});
+            const { data }: Response = await link.get();
             const { query } = data;
 
             for (const id in query.pages) {

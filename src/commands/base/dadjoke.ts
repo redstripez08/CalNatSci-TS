@@ -1,4 +1,3 @@
-import axios from 'axios';
 import Link from '../../classes/Link';
 import { Command } from '../../typings';
 import { axiosErrorHandler, charCounter } from '../../utils';
@@ -16,7 +15,7 @@ export default {
     rolesRequired: [],
     async execute(message) {
         try {
-            const res = await axios.get(link.href, {headers: link.headers});
+            const res = await link.get();
             message.channel.send(charCounter(res.data, 2048, true));            
         } catch (error) {
             if (error.isAxiosError) {

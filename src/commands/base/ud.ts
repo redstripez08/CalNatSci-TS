@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import { MessageEmbed } from "discord.js";
 import { DateTime } from "luxon";
 import { Link } from "../../classes";
@@ -53,7 +53,7 @@ export default {
                 headers: {"Accept": "application/json"}
             });
 
-            const { data }: Response = await axios.get(link.href, {headers: link.headers});
+            const { data }: Response = await link.get();
             if (!data.list.length) return message.channel.send("No Results Found!");
             
             // TODO create flags for getting specific ranking of definiton
