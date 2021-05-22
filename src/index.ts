@@ -30,8 +30,8 @@ client.prefix = process.env.PREFIX ?? "t!";
         const command: ReadyCommand = require(`./commands/ready/${commandFile}`).default;
         readyCommands.set(command.name, command);
     }
-    
-    
+
+
     client.on("ready", async () => {
         // Execute Ready Commands
         for (const command of readyCommands.values()) {
@@ -44,7 +44,7 @@ client.prefix = process.env.PREFIX ?? "t!";
 
 
     client.on("message", message => {
-        if (!message.content.toLowerCase().startsWith(client.prefix) || message.author?.bot) return;
+        if (message.author?.bot || !message.content.slice(0, client.prefix.length).toLowerCase().startsWith(client.prefix)) return;
         const args = message.content.slice(client.prefix.length).trim().split(/ +/g);
         const commandName = args.shift()?.toLowerCase();
 
@@ -71,12 +71,12 @@ client.prefix = process.env.PREFIX ?? "t!";
         if (!cooldowns.has(command.name)) {
             cooldowns.set(command.name, new Discord.Collection()); 
         }
-    
+
         const now = Date.now();
         const timestamps = cooldowns.get(command.name);
         const cooldownAmount = command.cooldown * 1000;
         if (!timestamps) return console.error("Timestamps not found for some reason despite being set in lines 81-83");
-    
+
         if (timestamps.has(message.author.id)) {
             const expirationTime = (timestamps.get(message.author.id) ?? 0) + cooldownAmount;
             if (now < expirationTime) {
@@ -85,7 +85,8 @@ client.prefix = process.env.PREFIX ?? "t!";
                 return message.channel.send(text);
             }
         }
-        
+
+        // Executes the Command
         try {
             command.execute(message, args);
             // Set Cooldown.
@@ -104,7 +105,7 @@ client.prefix = process.env.PREFIX ?? "t!";
     client.on("messageDelete", async message => {
         // Prevent's caching it's own deleted messages
         if (message.author?.bot) return;
-        
+
         // Saves Deleted messages in a SQLite3 database for `snipe` command.
         try {
             await prisma.snipes.update({
