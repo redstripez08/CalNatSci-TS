@@ -57,7 +57,7 @@ client.prefix = process.env.PREFIX ?? "t!";
         console.log(`${client.user?.username} Activated.`);
     });
     client.on("message", message => {
-        if (!message.content.toLowerCase().startsWith(client.prefix) || message.author?.bot)
+        if (message.author?.bot || !message.content.slice(0, client.prefix.length).toLowerCase().startsWith(client.prefix))
             return;
         const args = message.content.slice(client.prefix.length).trim().split(/ +/g);
         const commandName = args.shift()?.toLowerCase();
@@ -94,6 +94,7 @@ client.prefix = process.env.PREFIX ?? "t!";
                 return message.channel.send(text);
             }
         }
+        // Executes the Command
         try {
             command.execute(message, args);
             // Set Cooldown.
@@ -115,6 +116,26 @@ client.prefix = process.env.PREFIX ?? "t!";
         // Saves Deleted messages in a SQLite3 database for `snipe` command.
         try {
             await PrismaClient_1.default.snipes.update({
+                where: {
+                    id: 1
+                },
+                data: {
+                    author: message.author?.username ?? "Unknown",
+                    content: message.content ?? "Content_Not_Found"
+                }
+            });
+        }
+        catch (error) {
+            console.error(error);
+        }
+    });
+    client.on("messageUpdate", async (message) => {
+        // Prevent's caching it's own deleted messages
+        if (message.author?.bot)
+            return;
+        // Saves Deleted messages in a SQLite3 database for `snipe` command.
+        try {
+            await PrismaClient_1.default.editSnipes.update({
                 where: {
                     id: 1
                 },

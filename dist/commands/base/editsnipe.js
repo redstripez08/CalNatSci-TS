@@ -7,9 +7,9 @@ const PrismaClient_1 = __importDefault(require("../../classes/PrismaClient"));
 const discord_js_1 = require("discord.js");
 const utils_1 = require("../../utils");
 exports.default = {
-    name: "snipe",
+    name: "editsnipe",
     aliases: [],
-    description: "Deleted Message Sniper",
+    description: "Edited Message Sniper",
     usage: null,
     cooldown: 0,
     guildOnly: false,
@@ -17,7 +17,7 @@ exports.default = {
     rolesRequired: [],
     async execute(message) {
         try {
-            const snipedObject = await PrismaClient_1.default.snipes.findFirst({
+            const snipedObject = await PrismaClient_1.default.editSnipes.findFirst({
                 where: {
                     id: 1
                 }
