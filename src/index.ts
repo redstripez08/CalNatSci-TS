@@ -122,6 +122,27 @@ client.prefix = process.env.PREFIX ?? "t!";
         }
     });
 
+    client.on("messageUpdate", async message => {
+        // Prevent's caching it's own deleted messages
+        if (message.author?.bot) return;
+
+        // Saves Deleted messages in a SQLite3 database for `snipe` command.
+        try {
+            await prisma.editSnipes.update({
+                where: {
+                    id: 1
+                },
+                data: {
+                    author: message.author?.username ?? "Unknown",
+                    content: message.content ?? "Content_Not_Found"
+                }
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    });
+
+
     try {
         await client.login();
     } catch (error) {
