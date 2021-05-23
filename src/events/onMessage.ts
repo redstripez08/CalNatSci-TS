@@ -75,11 +75,3 @@ export default {
         }
     }
 } as EventHandler;
-
-// export default {
-//     name: "disconnect",
-//     type: "on",
-//     handler() {
-
-//     }
-// } as EventHandler
