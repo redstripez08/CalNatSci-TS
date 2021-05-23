@@ -2,7 +2,11 @@ import Link from '../../classes/Link';
 import { Command } from '../../../typings';
 import { axiosErrorHandler, charCounter } from '../../utils';
 
-const link = new Link("https://icanhazdadjoke.com/", {headers: {"Accept": "text/plain"}});
+const link = new Link("https://icanhazdadjoke.com/", {
+    headers: {
+        "accept": "text/plain"
+    }
+});
 
 export default {
     name: "dadjoke",
