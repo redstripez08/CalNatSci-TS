@@ -2,6 +2,9 @@ import { AxiosRequestConfig } from "axios";
 import * as Discord from "discord.js";
 import Client from "../src/classes/Client";
 
+/**
+ * Command Interface of the bot
+ */
 export interface Command {
     name: string;
     aliases: string[];
@@ -32,7 +35,13 @@ export interface LinkConfig extends AxiosRequestConfig {
     method?:  "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 }
 
-interface Route {
+export interface Route {
     router: Router;
     path: string;
+}
+
+export interface EventHandler {
+    name: keyof Discord.ClientEvents;
+    type: "on" | "once";
+    handler(...args: any): Promise<void> | void;
 }
