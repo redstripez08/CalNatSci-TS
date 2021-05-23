@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import * as querystring from "querystring";
-import { LinkConfig } from "../typings";
+import { LinkConfig } from "../../typings";
 
 export default class Link extends URL {
     private config?: LinkConfig;
