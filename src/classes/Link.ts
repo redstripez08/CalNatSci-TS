@@ -63,13 +63,27 @@ export default class Link extends URL {
     }
 
     /**
-     * Sends a `GET` request using `Axios`
+     * Sends a `GET` request using `Axios` library
      * @param config Overrides instantiated config
-     * @returns Response
+     * @returns Axios Response
      */
     public get(config?: LinkConfig): Promise<AxiosResponse<any>> {
         try {
             return axios.get(this.href, config ?? this.config);
+        } catch (error) {
+            return error;
+        }
+    }
+
+    /**
+     * Sends a `POST` request using `Axios` library
+     * @param body The body of the request
+     * @param config Overrides instantiated config
+     * @returns Axios Response
+     */
+    public post(body?: object, config?: LinkConfig): Promise<AxiosResponse<any>> {
+        try {
+            return axios.post(this.href, body, config ?? this.config);
         } catch (error) {
             return error;
         }
