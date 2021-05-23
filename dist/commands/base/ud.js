@@ -1,9 +1,5 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const axios_1 = __importDefault(require("axios"));
 const discord_js_1 = require("discord.js");
 const luxon_1 = require("luxon");
 const classes_1 = require("../../classes");
@@ -36,7 +32,7 @@ exports.default = {
                 querystring: { term: args.join(" ") },
                 headers: { "Accept": "application/json" }
             });
-            const { data } = await axios_1.default.get(link.href, { headers: link.headers });
+            const { data } = await link.get();
             if (!data.list.length)
                 return message.channel.send("No Results Found!");
             // TODO create flags for getting specific ranking of definiton

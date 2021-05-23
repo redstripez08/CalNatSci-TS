@@ -1,12 +1,8 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const utils_1 = require("../../utils");
 const classes_1 = require("../../classes");
 const discord_js_1 = require("discord.js");
-const axios_1 = __importDefault(require("axios"));
 const link = new classes_1.Link("/random.json", "https://uselessfacts.jsph.pl/", {
     querystring: { language: "en" },
     headers: { "Accept": "applicaton/json" },
@@ -22,7 +18,7 @@ exports.default = {
     rolesRequired: [],
     async execute(message) {
         try {
-            const { data } = await axios_1.default.get(link.href, { headers: link.headers });
+            const { data } = await link.get();
             const embed = new discord_js_1.MessageEmbed()
                 .setTitle("Random Fact")
                 .setColor(utils_1.randomHex())

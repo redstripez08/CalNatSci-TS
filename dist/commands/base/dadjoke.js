@@ -3,7 +3,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const axios_1 = __importDefault(require("axios"));
 const Link_1 = __importDefault(require("../../classes/Link"));
 const utils_1 = require("../../utils");
 const link = new Link_1.default("https://icanhazdadjoke.com/", { headers: { "Accept": "text/plain" } });
@@ -18,7 +17,7 @@ exports.default = {
     rolesRequired: [],
     async execute(message) {
         try {
-            const res = await axios_1.default.get(link.href, { headers: link.headers });
+            const res = await link.get();
             message.channel.send(utils_1.charCounter(res.data, 2048, true));
         }
         catch (error) {

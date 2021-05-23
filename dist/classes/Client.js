@@ -19,7 +19,19 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Client = void 0;
 const Discord = __importStar(require("discord.js"));
 class Client extends Discord.Client {
+    constructor(options) {
+        super(options);
+        this._prefix = options.prefix;
+    }
+    get prefix() {
+        return this._prefix;
+    }
 }
-exports.default = Client;
+exports.Client = Client;
+exports.default = new Client({
+    ws: { intents: Discord.Intents.ALL },
+    prefix: process.env.PREFIX ?? "t!"
+});

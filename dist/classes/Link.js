@@ -18,29 +18,74 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const axios_1 = __importDefault(require("axios"));
 const querystring = __importStar(require("querystring"));
 class Link extends URL {
-    /**
-     * The Link interface represents an object providing static methods used for creating object links.
-     * @param url       Relative path or full Link
-     * @param base      Base link for `url`
-     * @param options   Options for Link
-     * @extends URL
-     */
-    constructor(url, base, options) {
-        typeof base === "string" || base instanceof URL ? super(url, base) : super(url);
+    constructor(url, base, config) {
+        typeof base === "string" || base instanceof URL
+            ? super(url.toString(), base)
+            : super(url.toString());
         if (base) {
+            // Checks if base is LinkConfig
             if (typeof base !== "string" && !(base instanceof URL)) {
-                this.method = base.method ? base.method : undefined;
-                this.headers = base.headers ? base.headers : undefined;
+                this.config = base;
+                this.method = base.method ?? undefined;
+                this.headers = base.headers ?? undefined;
                 this.search = base.querystring ? querystring.stringify(base.querystring) : this.search;
             }
-            else if (options) {
-                this.method = options.method ? options.method : undefined;
-                this.headers = options.headers ? options.headers : undefined;
-                this.search = options.querystring ? querystring.stringify(options.querystring) : this.search;
+            else if (config) {
+                this.config = config;
+                this.method = config.method ?? undefined;
+                this.headers = config.headers ?? undefined;
+                this.search = config.querystring ? querystring.stringify(config.querystring) : this.search;
             }
+        }
+    }
+    /**
+     * Sends Request using Method specifed in `config`
+     * @param config
+     * @returns
+     */
+    request(config) {
+        try {
+            const conf = config ?? this.config;
+            if (!conf || !conf.method)
+                throw new Error("URL and Method are required properties!");
+            return axios_1.default.request(Object.assign({ url: this.href }, conf));
+        }
+        catch (error) {
+            return error;
+        }
+    }
+    /**
+     * Sends a `GET` request using `Axios` library
+     * @param config Overrides instantiated config
+     * @returns Axios Response
+     */
+    get(config) {
+        try {
+            return axios_1.default.get(this.href, config ?? this.config);
+        }
+        catch (error) {
+            return error;
+        }
+    }
+    /**
+     * Sends a `POST` request using `Axios` library
+     * @param body The body of the request
+     * @param config Overrides instantiated config
+     * @returns Axios Response
+     */
+    post(body, config) {
+        try {
+            return axios_1.default.post(this.href, body, config ?? this.config);
+        }
+        catch (error) {
+            return error;
         }
     }
 }

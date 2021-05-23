@@ -1,9 +1,5 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const axios_1 = __importDefault(require("axios"));
 const classes_1 = require("../../classes");
 const utils_1 = require("../../utils");
 const discord_js_1 = require("discord.js");
@@ -23,7 +19,7 @@ exports.default = {
                     "Accept": "application/json"
                 }
             });
-            const res = await axios_1.default.get(link.href, { headers: link.headers });
+            const res = await link.get();
             const embed = new discord_js_1.MessageEmbed()
                 .setImage(res.data.url)
                 .setColor(utils_1.randomHex());

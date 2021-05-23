@@ -1,9 +1,5 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const axios_1 = __importDefault(require("axios"));
 const discord_js_1 = require("discord.js");
 const classes_1 = require("../../classes");
 const utils_1 = require("../../utils");
@@ -32,7 +28,7 @@ exports.default = {
                     "accept": "application/json"
                 }
             });
-            const { data } = await axios_1.default.get(link.href, { headers: link.headers });
+            const { data } = await link.get();
             const { query } = data;
             for (const id in query.pages) {
                 if (Object.prototype.hasOwnProperty.call(query.pages, id)) {
