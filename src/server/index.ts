@@ -1,7 +1,7 @@
 import express from "express";
 import * as fs from "fs";
 import * as path from "path";
-import { Route } from "../typings";
+import { Route } from "../../typings";
 
 const { PORT = 80, SERVER_AUTH } = process.env;
 const app = express();

@@ -1,4 +1,4 @@
-import { ReadyCommand } from "../../typings";
+import { ReadyCommand } from "../../../typings";
 import Keyv from "keyv";
 import { MessageEmbed, Role, TextChannel, User } from "discord.js";
 

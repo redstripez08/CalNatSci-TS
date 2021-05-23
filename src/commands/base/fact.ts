@@ -1,4 +1,4 @@
-import { Command } from "../../typings";
+import { Command } from "../../../typings";
 import { randomHex, axiosErrorHandler, charCounter } from "../../utils";
 import { Link } from "../../classes";
 import { MessageEmbed } from "discord.js";

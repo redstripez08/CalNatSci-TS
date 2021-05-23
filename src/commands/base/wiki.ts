@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import { MessageEmbed } from "discord.js";
 import { Link } from "../../classes";
-import { Command } from "../../typings";
+import { Command } from "../../../typings";
 import { axiosErrorHandler, charCounter, randomHex } from "../../utils";
 
 interface Response extends AxiosResponse {

@@ -1,4 +1,4 @@
-import { Command } from "../../typings";
+import { Command } from "../../../typings";
 
 /**
  * Just a Command for Testing stuff

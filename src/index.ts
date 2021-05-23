@@ -1,7 +1,7 @@
 import * as Discord from "discord.js";
 import * as fs from "fs";
 import * as path from "path";
-import { Command, ReadyCommand } from "./typings";
+import { Command, ReadyCommand } from "../typings";
 import { Client } from "./classes";
 import prisma from "./classes/PrismaClient";
 
@@ -41,7 +41,6 @@ client.prefix = process.env.PREFIX ?? "t!";
         client.user?.setActivity({name: `${client.prefix}help`, type: "LISTENING"});
         console.log(`${client.user?.username} Activated.`);
     });
-
 
     client.on("message", message => {
         if (message.author?.bot || !message.content.slice(0, client.prefix.length).toLowerCase().startsWith(client.prefix)) return;

@@ -2,7 +2,7 @@ import { AxiosResponse } from "axios";
 import { MessageEmbed } from "discord.js";
 import { DateTime } from "luxon";
 import { Link } from "../../classes";
-import { Command } from "../../typings";
+import { Command } from "../../../typings";
 import { axiosErrorHandler, charCounter, randomHex } from "../../utils";
 const { TIMEZONE = "UTC"} = process.env;
 

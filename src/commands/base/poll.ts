@@ -1,5 +1,5 @@
 import { Collection, Message, MessageEmbed } from "discord.js";
-import { Command } from "../../typings";
+import { Command } from "../../../typings";
 import { charCounter, randomHex } from "../../utils";
 
 const emojiList = [

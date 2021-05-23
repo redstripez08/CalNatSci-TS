@@ -1,5 +1,5 @@
 import { Message, MessageEmbed } from "discord.js";
-import { Command } from "../../typings";
+import { Command } from "../../../typings";
 
 type RPSchoices = "r" | "p" | "s";
 

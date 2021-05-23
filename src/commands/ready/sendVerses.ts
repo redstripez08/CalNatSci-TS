@@ -1,7 +1,7 @@
 import { WebhookClient } from "discord.js";
 import { DateTime } from "luxon";
 import prisma from "../../classes/PrismaClient";
-import { ReadyCommand } from "../../typings";
+import { ReadyCommand } from "../../../typings";
 import { randomHex } from "../../utils";
 
 const { VERSES_WEBHOOK_ID, VERSES_WEBHOOK_TOKEN, IANA_TIMEZONE } = process.env;

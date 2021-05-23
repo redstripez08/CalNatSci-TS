@@ -1,6 +1,6 @@
 import { MessageEmbed } from "discord.js";
 import Client from "../../classes/Client";
-import { Command } from "../../typings";
+import { Command } from "../../../typings";
 
 export default {
     name: "help",

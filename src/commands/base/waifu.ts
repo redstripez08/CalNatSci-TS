@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import { Link } from "../../classes";
-import { Command } from "../../typings";
+import { Command } from "../../../typings";
 import { axiosErrorHandler, randomHex } from "../../utils";
 import { MessageEmbed } from "discord.js";
 

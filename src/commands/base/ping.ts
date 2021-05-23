@@ -1,5 +1,5 @@
 import { MessageEmbed } from "discord.js";
-import { Command } from "../../typings";
+import { Command } from "../../../typings";
 import { randomHex } from "../../utils";
 
 export default {

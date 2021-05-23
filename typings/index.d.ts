@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from "axios";
 import * as Discord from "discord.js";
-import Client from "../classes/Client";
+import Client from "../src/classes/Client";
 
 export interface Command {
     name: string;

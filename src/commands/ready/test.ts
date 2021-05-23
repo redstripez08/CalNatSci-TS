@@ -1,4 +1,4 @@
-import { ReadyCommand } from "../../typings";
+import { ReadyCommand } from "../../../typings";
 
 export default {
     name: "test",

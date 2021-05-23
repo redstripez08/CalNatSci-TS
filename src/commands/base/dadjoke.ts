@@ -1,5 +1,5 @@
 import Link from '../../classes/Link';
-import { Command } from '../../typings';
+import { Command } from '../../../typings';
 import { axiosErrorHandler, charCounter } from '../../utils';
 
 const link = new Link("https://icanhazdadjoke.com/", {headers: {"Accept": "text/plain"}});

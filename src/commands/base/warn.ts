@@ -1,4 +1,4 @@
-import { Command } from "../../typings";
+import { Command } from "../../../typings";
 import Keyv from "keyv";
 import { checkNodeEnv, getUserFromMention, randomHex } from "../../utils";
 import { Message, MessageEmbed, User } from "discord.js";

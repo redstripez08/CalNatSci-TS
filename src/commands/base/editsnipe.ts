@@ -1,4 +1,4 @@
-import { Command } from "../../typings";
+import { Command } from "../../../typings";
 import prisma from "../../classes/PrismaClient";
 import { MessageEmbed } from "discord.js";
 import { randomHex } from "../../utils";
