@@ -1,0 +1,22 @@
+version: "3.7"
+
+services:
+    worker:
+        container_name: calnatsci-ts.worker
+        image: redstripez08/calnatsci-ts:latest
+        working_dir: /usr/src/app
+        command: npm start
+        env_file: ./prod.env
+        volumes: 
+            - ./prisma/db:/usr/src/app/prisma/db
+
+    web:
+        container_name: calnatsci-ts.web
+        image: redstripez08/calnatsci-ts:latest
+        command: npm run server:start
+        working_dir: /usr/src/app
+        env_file: ./prod.env
+        volumes:
+            - ./prisma/db:/usr/src/app/prisma/db
+        ports:
+            - 80:80
