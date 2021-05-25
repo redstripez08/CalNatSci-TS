@@ -5,7 +5,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const Link_1 = __importDefault(require("../../classes/Link"));
 const utils_1 = require("../../utils");
-const link = new Link_1.default("https://icanhazdadjoke.com/", { headers: { "Accept": "text/plain" } });
+const link = new Link_1.default("https://icanhazdadjoke.com/", {
+    headers: {
+        "accept": "text/plain"
+    }
+});
 exports.default = {
     name: "dadjoke",
     aliases: ["djk", "dadjk"],

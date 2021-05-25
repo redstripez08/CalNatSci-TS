@@ -33,14 +33,14 @@ class Link extends URL {
             // Checks if base is LinkConfig
             if (typeof base !== "string" && !(base instanceof URL)) {
                 this.config = base;
-                this.method = base.method ?? undefined;
-                this.headers = base.headers ?? undefined;
+                this.method = base.method;
+                this.headers = base.headers;
                 this.search = base.querystring ? querystring.stringify(base.querystring) : this.search;
             }
             else if (config) {
                 this.config = config;
-                this.method = config.method ?? undefined;
-                this.headers = config.headers ?? undefined;
+                this.method = config.method;
+                this.headers = config.headers;
                 this.search = config.querystring ? querystring.stringify(config.querystring) : this.search;
             }
         }
