@@ -2,6 +2,9 @@ import axios, { AxiosResponse } from "axios";
 import * as querystring from "querystring";
 import { LinkConfig } from "../../typings";
 
+/**
+ * Link Class to make requests and URL handling easier
+ */
 export default class Link extends URL {
     private config?: LinkConfig;
     public headers?: object;
@@ -10,13 +13,25 @@ export default class Link extends URL {
     /**
      * The Link interface represents an object providing static methods used for creating object links.
      * @param url       Relative path or full Link
+     * @extends URL
+     */
+    constructor(url: string);
+
+    /**
+     * The Link interface represents an object providing static methods used for creating object links.
+     * @param url       Relative path or full Link
+     * @param base      Base link for `url`
+     * @extends URL
+     */
+    constructor(url: string, base?: string);
+
+    /**
+     * The Link interface represents an object providing static methods used for creating object links.
+     * @param url       Relative path or full Link
      * @param base      Base link for `url`
      * @param config   Options for Link
      * @extends URL
      */
-
-    constructor(url: string);
-    constructor(url: string, base?: string);
     constructor(url: string, base?: string, config?: LinkConfig);
     constructor(url: string, base?: URL, config?: LinkConfig);
     constructor(url: string, base?: LinkConfig, config?: LinkConfig);
@@ -46,7 +61,7 @@ export default class Link extends URL {
     /**
      * Sends Request using Method specifed in `config`
      * @param config
-     * @returns 
+     * @returns Axios Response
      */
     public request(config?: LinkConfig): Promise<AxiosResponse<any>> {
         try {
