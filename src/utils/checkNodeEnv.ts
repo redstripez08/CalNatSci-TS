@@ -1,4 +1,4 @@
-type Envs = "dev" | "production";
+type Envs = "development" | "production";
 
 /**
  * Checks for Node Environment
