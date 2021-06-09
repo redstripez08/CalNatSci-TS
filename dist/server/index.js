@@ -53,8 +53,6 @@ const schema = nexus_1.makeSchema({
         export: "Context"
     }
 });
-(async () => {
-    const server = new apollo_server_express_1.ApolloServer({ schema, context: context_1.context });
-    server.applyMiddleware({ app });
-    app.listen(PORT, () => console.log(`[HTTP/1.1 | Server] Listening to port ${PORT}`));
-})();
+const server = new apollo_server_express_1.ApolloServer({ schema, context: context_1.context });
+server.applyMiddleware({ app });
+app.listen(PORT, () => console.log(`[HTTP/1.1 | Server] Listening to port ${PORT}`));
