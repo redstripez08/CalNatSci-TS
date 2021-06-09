@@ -1,22 +1,36 @@
-version: "3.7"
+version: "3.9"
 
 services:
     worker:
         container_name: calnatsci-ts.worker
-        image: redstripez08/calnatsci-ts:latest
+        image: calnat
+        build: ./
         working_dir: /usr/src/app
         command: npm start
         env_file: ./prod.env
-        volumes: 
-            - ./prisma/db:/usr/src/app/prisma/db
+        depends_on: 
+            - db
 
     web:
         container_name: calnatsci-ts.web
-        image: redstripez08/calnatsci-ts:latest
+        image: calnat
+        build: ./
         command: npm run server:start
         working_dir: /usr/src/app
         env_file: ./prod.env
-        volumes:
-            - ./prisma/db:/usr/src/app/prisma/db
         ports:
             - 80:80
+        depends_on: 
+            - db
+
+    db:
+        container_name: calnatsci-ts.db
+        image: postgres
+        restart: always
+        environment:
+            POSTGRES_PASSWORD: root
+            POSTGRES_DB: data
+        volumes: 
+            - ~/thing/postgres-data:/var/lib/postgresql/data
+        ports: 
+            - 5555:5432
