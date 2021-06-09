@@ -1,5 +1,4 @@
 FROM node:14
-
 WORKDIR /usr/src/app
 
 # Install deps
@@ -10,9 +9,9 @@ RUN npm ci --production
 COPY . .
 
 # Generate Prisma Client and Database
-ENV DATABASE_URL=sqlite:./db/Database.db
+ENV DATABASE_URL=sqlite:./db/Database.db PORT=80
 RUN npx prisma generate
-RUN npx prisma migrate deploy --preview-feature
+RUN npx prisma migrate deploy 
 
 EXPOSE 80
 CMD [ "npm", "start" ]
