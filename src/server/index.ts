@@ -2,10 +2,10 @@ import { ApolloServer } from "apollo-server-express";
 import express from "express";
 import * as fs from "fs";
 import * as path from "path";
-import * as types from "./schema";
+import * as types from "./graphql";
 import { makeSchema } from "nexus";
 import { Route } from "../../typings";
-import prisma from "../classes/PrismaClient";
+import { context } from "./graphql/context";
 
 const { PORT = 80, SERVER_AUTH } = process.env;
 const app = express();
@@ -28,23 +28,15 @@ const schema = makeSchema({
     types,
     outputs: {
         typegen: path.resolve(__dirname, "./nexus-typegen.ts"),
-        schema: path.resolve(__dirname, "./schema/schema.graphql")
+        schema: path.resolve(__dirname, "./graphql/schema.graphql")
     },
     contextType: {
-        module: path.resolve(__dirname, "./schema/context.ts"),
+        module: path.resolve(__dirname, "./graphql/context.ts"),
         export: "Context"
     }
 });
 
-(async () => {    
-    const server = new ApolloServer({schema, 
-        context: {
-            db: {
-                verses: await prisma.verses.findMany()
-            }
-        }
-    });
+const server = new ApolloServer({schema, context});
 
-    server.applyMiddleware({app});
-    app.listen(PORT, () => console.log(`[HTTP/1.1 | Server] Listening to port ${PORT}`));
-})();
+server.applyMiddleware({app});
+app.listen(PORT, () => console.log(`[HTTP/1.1 | Server] Listening to port ${PORT}`));
