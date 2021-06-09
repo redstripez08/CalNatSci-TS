@@ -9,6 +9,6 @@ like this is because it was originally handle school stuff for myself and some f
 
 The bot does stuff for my server. It handles warnings, polls, role-reacts and stuff like that.
 This bot became a lot larger and complex than I expected it to. It handles some database stuff
-with MongoDB and SQLite, and now can run in Docker Containers. The bot now has a web server as well so i can update it over the internet.
+with MongoDB and Postgres, and now can run in Docker Containers. The bot now has a web server as well so i can update it over the internet.
 
-It now has a Docker Image and `docker-compose.yml` for worker (bot) and web (server).
+It now has a Docker Image and `docker-compose.yml` for worker (bot), web (server), and db (database).
