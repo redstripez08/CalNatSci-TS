@@ -1,53 +1,53 @@
 {
-	"name": "calnatsci-ts",
-	"version": "2.0.0",
-	"description": "CalNatSci Bot rewritten in TypeScript",
-	"main": "./dist/index.js",
-	"scripts": {
-		"build": "tsc",
-		"start": "node .",
-		"dev:start": "node --trace-warnings -r dotenv/config .",
-		"dev:watch": "nodemon --trace-warnings -r dotenv/config .",
-		"server:start": "node ./dist/server/index.js",
-		"server:dev": "node -r dotenv/config ./dist/server/index.js",
-		"ts:start": "ts-node-dev -r dotenv/config ./src/index.ts",
-		"ts:watch": "tsc --watch"
-	},
-	"engines": {
-		"node": "^14.15.1",
-		"npm": "^7.18.1"
-	},
-	"types": "typings/index.d.ts",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/redstripez08/CalNatSci-TS.git"
-	},
-	"author": "Angelo",
-	"license": "ISC",
-	"bugs": {
-		"url": "https://github.com/redstripez08/CalNatSci-TS/issues"
-	},
-	"homepage": "https://github.com/redstripez08/CalNatSci-TS#readme",
-	"dependencies": {
-		"@keyv/mongo": "^1.1.0",
-		"@prisma/client": "^2.26.0",
-		"axios": "^0.21.1",
-		"discord.js": "^12.5.3",
-		"keyv": "^4.0.3",
-		"luxon": "^1.27.0",
-		"nexus": "^1.0.0"
-	},
-	"devDependencies": {
-		"@types/keyv": "^3.1.1",
-		"@types/luxon": "^1.27.1",
-		"@types/node": "^14.17.5",
-		"@typescript-eslint/eslint-plugin": "^4.28.2",
-		"@typescript-eslint/parser": "^4.28.2",
-		"dotenv": "^8.2.0",
-		"eslint": "^7.30.0",
-		"prisma": "^2.26.0",
-		"ts-node-dev": "^1.1.8",
-		"typedoc": "^0.20.36",
-		"typescript": "^4.2.3"
-	}
+  "name": "calnatsci-ts",
+  "version": "2.0.0",
+  "description": "CalNatSci Bot rewritten in TypeScript",
+  "main": "./dist/index.js",
+  "scripts": {
+	"build": "tsc",
+	"start": "node .",
+	"dev:start": "node --trace-warnings -r dotenv/config .",
+	"dev:watch": "nodemon --trace-warnings -r dotenv/config .",
+	"server:start": "node ./dist/server/index.js",
+	"server:dev": "node -r dotenv/config ./dist/server/index.js",
+	"ts:start": "ts-node-dev -r dotenv/config ./src/index.ts",
+	"ts:watch": "tsc --watch"
+  },
+  "engines": {
+	"node": "^14.15.1",
+	"npm": "^7.18.1"
+  },
+  "types": "typings/index.d.ts",
+  "repository": {
+	"type": "git",
+	"url": "git+https://github.com/redstripez08/CalNatSci-TS.git"
+  },
+  "author": "Angelo",
+  "license": "ISC",
+  "bugs": {
+	"url": "https://github.com/redstripez08/CalNatSci-TS/issues"
+  },
+  "homepage": "https://github.com/redstripez08/CalNatSci-TS#readme",
+  "dependencies": {
+	"@keyv/mongo": "^1.1.0",
+	"@prisma/client": "^2.26.0",
+	"axios": "^0.21.1",
+	"discord.js": "^12.5.3",
+	"keyv": "^4.0.3",
+	"luxon": "^1.27.0",
+	"nexus": "^1.0.0"
+  },
+  "devDependencies": {
+	"@types/keyv": "^3.1.1",
+	"@types/luxon": "^1.27.1",
+	"@types/node": "^14.17.5",
+	"@typescript-eslint/eslint-plugin": "^4.28.2",
+	"@typescript-eslint/parser": "^4.28.2",
+	"dotenv": "^8.2.0",
+	"eslint": "^7.30.0",
+	"prisma": "^2.26.0",
+	"ts-node-dev": "^1.1.8",
+	"typedoc": "^0.20.36",
+	"typescript": "^4.2.3"
+  }
 }
