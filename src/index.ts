@@ -4,11 +4,9 @@ import { EventHandler } from "../typings";
 import client from "./classes/Client";
 
 (async () => {
-    const eventHandlers = (
-        await fsp.readdir(path.resolve(__dirname, "./events/"))
-    ).filter(file => file.endsWith(".js"));
+    const eventHandlers = fsp.readdir(path.resolve(__dirname, "./events/"));
 
-    for (const eventHandler of eventHandlers) {
+    for (const eventHandler of await eventHandlers) {
         const event: EventHandler = (await import(`./events/${eventHandler}`))
             .default;
 
