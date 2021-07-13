@@ -8,9 +8,9 @@
     "build": "tsc",
     "start": "node .",
     "dev": "node -r dotenv/config .",
-    "dev:watch": "nodemon -r dotenv/config .",
     "ts-dev": "ts-node-dev -r dotenv/config ./src/index.ts",
-    "ts:watch": "tsc --watch"
+    "ts:watch": "tsc --watch",
+    "test": "jest"
   },
   "engines": {
     "node": "^14.15.1",
