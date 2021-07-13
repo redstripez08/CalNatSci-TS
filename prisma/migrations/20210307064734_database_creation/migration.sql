@@ -1,6 +1,0 @@
--- CreateTable
-CREATE TABLE "Verses" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "day" INTEGER NOT NULL,
-    "content" TEXT NOT NULL
-);
