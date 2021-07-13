@@ -29,12 +29,13 @@
   "homepage": "https://github.com/redstripez08/CalNatSci-TS#readme",
   "dependencies": {
     "@keyv/mongo": "^1.1.0",
-    "@prisma/client": "^2.26.0",
+    "@prisma/client": "^2.27.0",
     "axios": "^0.21.1",
     "discord.js": "^12.5.3",
     "keyv": "^4.0.3",
     "luxon": "^1.27.0",
-    "nexus": "^1.0.0"
+    "nexus": "^1.0.0",
+    "prisma": "^2.27.0"
   },
   "devDependencies": {
     "@types/jest": "^26.0.24",
@@ -46,7 +47,6 @@
     "dotenv": "^8.2.0",
     "eslint": "^7.30.0",
     "jest": "^27.0.6",
-    "prisma": "^2.26.0",
     "ts-jest": "^27.0.3",
     "ts-node-dev": "^1.1.8",
     "typedoc": "^0.20.36",
