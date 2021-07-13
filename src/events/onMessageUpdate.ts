@@ -11,17 +11,22 @@ export default {
 
         // Saves Deleted messages in a SQLite3 database for `snipe` command.
         try {
-            await prisma.editSnipes.update({
+            await prisma.editSnipes.upsert({
                 where: {
-                    id: 1
+                    id: 1,
                 },
-                data: {
+                create: {
+                    id: 1,
                     author: message.author?.username ?? "Unknown",
-                    content: message.content ?? "Content_Not_Found"
-                }
+                    content: message.content ?? "Content_Not_Found",
+                },
+                update: {
+                    author: message.author?.username ?? "Unknown",
+                    content: message.content ?? "Content_Not_Found",
+                },
             });
         } catch (error) {
             console.error(error);
         }
-    }
-} as EventHandler
+    },
+} as EventHandler;
