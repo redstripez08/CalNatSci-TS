@@ -13,8 +13,8 @@ export interface Command {
     cooldown: number;
     guildOnly: boolean;
     argsRequired: boolean;
-    rolesRequired: object[];
-    /** 
+    rolesRequired: Record<string, unknown>[];
+    /**
      * The actual command to be executed.
      * @param   message       Discord Message
      * @param   args          Arguments passed by user
@@ -23,7 +23,7 @@ export interface Command {
 }
 
 export interface ReadyCommand {
-    name:string,
+    name: string;
     execute(client: Client): Promise<void> | void;
 }
 
@@ -31,8 +31,8 @@ export interface LinkConfig extends AxiosRequestConfig {
     url?: string;
     base?: string | URL;
     querystring?: ParsedUrlQueryInput;
-    headers?: object;
-    method?:  "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+    headers?: Record<string, unknown>;
+    method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 }
 
 export interface Route {
@@ -43,5 +43,5 @@ export interface Route {
 export interface EventHandler {
     name: keyof Discord.ClientEvents;
     type: "on" | "once";
-    handler(...args: any): Promise<void> | void;
+    handler(client: Client, ...args: unknown): Promise<void> | void;
 }
