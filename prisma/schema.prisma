@@ -12,7 +12,7 @@ generator client {
 
 
 model Snipes {
-  id      Int     @id
+  id      Int     @id @default(1)
   author  String  @default("Placeholder Author")
   content String  @default("Placeholder Content")
 }
