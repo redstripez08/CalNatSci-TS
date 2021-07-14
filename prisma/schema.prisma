@@ -23,7 +23,7 @@ model EditSnipes {
   content String  @default("Placeholder Content")
 }
 
-model Verses {
+model Verse {
   id      Int    @default(autoincrement()) @id
   title   String @default("Placeholder Title")
   content String @default("Placeholder Content")
