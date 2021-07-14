@@ -70,7 +70,7 @@ export class Link extends URL {
      * @param config
      * @returns Axios Response
      */
-    public request(config?: LinkConfig): Promise<AxiosResponse<any>> {
+    public request(config?: LinkConfig): Promise<AxiosResponse<never>> {
         try {
             const conf = config ?? this.config;
             if (!conf || !conf.method)
@@ -87,7 +87,7 @@ export class Link extends URL {
      * @param config Overrides instantiated config
      * @returns Axios Response
      */
-    public get(config?: LinkConfig): Promise<AxiosResponse<any>> {
+    public get(config?: LinkConfig): Promise<AxiosResponse<never>> {
         try {
             return axios.get(this.href, config ?? this.config);
         } catch (error) {
@@ -104,7 +104,7 @@ export class Link extends URL {
     public post(
         body?: Record<string, unknown>,
         config?: LinkConfig
-    ): Promise<AxiosResponse<unknown>> {
+    ): Promise<AxiosResponse<never>> {
         try {
             return axios.post(this.href, body, config ?? this.config);
         } catch (error) {
