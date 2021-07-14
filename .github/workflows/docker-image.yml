@@ -1,0 +1,25 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ v2 ]
+  pull_request:
+    branches: [ v2 ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Install TypeScript compiler
+      run: npm install typescript@`node -p -e "require('./package.json').dependencies.typescript"`
+
+    - name: Build App
+      run: npm run build
+
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag redstripez08/calnatsci-ts:$(date +%s)
