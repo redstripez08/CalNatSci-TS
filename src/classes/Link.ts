@@ -5,9 +5,9 @@ import { LinkConfig } from "../../typings";
 /**
  * Link Class to make requests and URL handling easier
  */
-export default class Link extends URL {
+export class Link extends URL {
     private config?: LinkConfig;
-    public headers?: object;
+    public headers?: Record<string, unknown>;
     public method?: LinkConfig["method"];
 
     /**
@@ -36,9 +36,13 @@ export default class Link extends URL {
     constructor(url: string, base?: URL, config?: LinkConfig);
     constructor(url: string, base?: LinkConfig, config?: LinkConfig);
 
-    constructor(url: string | URL, base?: string | URL | LinkConfig, config?: LinkConfig) {
-        typeof base === "string" || base instanceof URL 
-            ? super(url.toString(), base) 
+    constructor(
+        url: string | URL,
+        base?: string | URL | LinkConfig,
+        config?: LinkConfig
+    ) {
+        typeof base === "string" || base instanceof URL
+            ? super(url.toString(), base)
             : super(url.toString());
 
         if (base) {
@@ -47,15 +51,18 @@ export default class Link extends URL {
                 this.config = base;
                 this.method = base.method;
                 this.headers = base.headers;
-                this.search = base.querystring ? querystring.stringify(base.querystring) : this.search;
+                this.search = base.querystring
+                    ? querystring.stringify(base.querystring)
+                    : this.search;
             } else if (config) {
                 this.config = config;
                 this.method = config.method;
                 this.headers = config.headers;
-                this.search = config.querystring ? querystring.stringify(config.querystring) : this.search;
+                this.search = config.querystring
+                    ? querystring.stringify(config.querystring)
+                    : this.search;
             }
         }
-
     }
 
     /**
@@ -66,12 +73,10 @@ export default class Link extends URL {
     public request(config?: LinkConfig): Promise<AxiosResponse<any>> {
         try {
             const conf = config ?? this.config;
-            if (!conf || !conf.method) throw new Error("URL and Method are required properties!");
+            if (!conf || !conf.method)
+                throw new Error("URL and Method are required properties!");
 
-            return axios.request(Object.assign(
-                {url: this.href},
-                conf
-            ));
+            return axios.request(Object.assign({ url: this.href }, conf));
         } catch (error) {
             return error;
         }
@@ -96,12 +101,16 @@ export default class Link extends URL {
      * @param config Overrides instantiated config
      * @returns Axios Response
      */
-    public post(body?: object, config?: LinkConfig): Promise<AxiosResponse<any>> {
+    public post(
+        body?: Record<string, unknown>,
+        config?: LinkConfig
+    ): Promise<AxiosResponse<unknown>> {
         try {
             return axios.post(this.href, body, config ?? this.config);
         } catch (error) {
             return error;
         }
     }
-
 }
+
+export default Link;
