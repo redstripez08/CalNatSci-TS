@@ -15,7 +15,6 @@ describe("Run Commands", () => {
         await command.execute(msg, ["hello", "world"]);
 
         expect(msg.channel.send).toHaveBeenCalledWith(expect.any(String));
-        return;
     });
 
     it("Runs myTest", async () => {
@@ -25,16 +24,23 @@ describe("Run Commands", () => {
         command.execute(msg, ["hello", "world"]);
 
         expect(msg.channel.send).toHaveBeenCalledWith(expect.any(String));
-        return;
     });
 
-    // it("Runs Urban Dictionary", async () => {
-    //     const command = (await import("../src/commands/base/ud")).default;
+    it("Runs Urban Dictionary", async () => {
+        const command = (await import("../src/commands/base/ud")).default;
 
-    //     const msg = message;
-    //     await command.execute(msg, ["hello", "world"]);
+        const msg = message;
+        await command.execute(msg, ["hello", "world"]);
 
-    //     expect(msg.channel.send).toHaveBeenCalledWith(expect.any(MessageEmbed));
-    //     return "k";
-    // });
+        expect(msg.channel.send).toHaveBeenCalledWith(expect.any(MessageEmbed));
+    });
+
+    it("Runs fact", async () => {
+        const command = (await import("../src/commands/base/fact")).default;
+
+        const msg = message;
+        await command.execute(msg, []);
+
+        expect(msg.channel.send).toHaveBeenCalledWith(expect.any(MessageEmbed));
+    });
 });
