@@ -12,18 +12,18 @@ if (!VERSES_WEBHOOK_ID || !VERSES_WEBHOOK_TOKEN || !IANA_TIMEZONE) {
 
 const webhook = new WebhookClient(VERSES_WEBHOOK_ID, VERSES_WEBHOOK_TOKEN);
 
-let sentBool: boolean = false;
+let sentBool = false;
 export default {
     name: "sendverses",
     execute() {
         setInterval(async () => {
             const date = DateTime.fromJSDate(new Date()).setZone(IANA_TIMEZONE);
-        
+
             if (date.hour === 8 && !sentBool) {
-                const verses = await prisma.verses.findFirst({
+                const verses = await prisma.verse.findFirst({
                     where: {
-                        id: date.day
-                    }
+                        id: date.day,
+                    },
                 });
 
                 await webhook.send(null, {
@@ -31,14 +31,14 @@ export default {
                         {
                             title: verses?.title,
                             description: verses?.content,
-                            color: randomHex()
-                        }
-                    ]
+                            color: randomHex(),
+                        },
+                    ],
                 });
 
                 sentBool = true;
-                setTimeout(() => sentBool = false, 3630 * 1000);
+                setTimeout(() => (sentBool = false), 3630 * 1000);
             }
         }, 60 * 1000);
-    }
+    },
 } as ReadyCommand;
