@@ -2,6 +2,10 @@
 
 CalNatSci Discord Bot rewritten in TypeScript.
 
+[![Node.js CI](https://github.com/redstripez08/CalNatSci-TS/actions/workflows/node.js.yml/badge.svg?branch=v2)](https://github.com/redstripez08/CalNatSci-TS/actions/workflows/node.js.yml)
+
+[![Docker Image CI](https://github.com/redstripez08/CalNatSci-TS/actions/workflows/docker-image.yml/badge.svg?branch=v2)](https://github.com/redstripez08/CalNatSci-TS/actions/workflows/docker-image.yml)
+
 Massive Refactoring ahead.
 
 ## Todo
