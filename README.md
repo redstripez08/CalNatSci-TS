@@ -21,3 +21,5 @@ This bot became a lot larger and complex than I expected it to. It handles some 
 with MongoDB and SQLite, and now can run in Docker Containers. The bot now has a web server as well so i can update it over the internet.
 
 It now has a Docker Image and `docker-compose.yml` for worker (bot) and web (server).
+
+test
