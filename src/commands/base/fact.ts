@@ -1,6 +1,6 @@
 import { Command } from "../../../typings";
 import { randomHex, axiosErrorHandler, charCounter } from "../../utils";
-import { Link } from "../../classes";
+import Link from "../../classes/Link";
 import { MessageEmbed } from "discord.js";
 import { AxiosResponse } from "axios";
 
@@ -12,12 +12,12 @@ interface Response extends AxiosResponse {
         source_url: string;
         language: "en" | "de";
         permalink: string;
-    }
+    };
 }
 
 const link = new Link("/random.json", "https://uselessfacts.jsph.pl/", {
-    querystring: {language: "en"},
-    headers: {"Accept": "applicaton/json"},
+    querystring: { language: "en" },
+    headers: { Accept: "applicaton/json" },
 });
 
 export default {
@@ -32,13 +32,13 @@ export default {
     async execute(message) {
         try {
             const { data }: Response = await link.get();
-            
+
             const embed = new MessageEmbed()
                 .setTitle("Random Fact")
                 .setColor(randomHex())
                 .setURL(data.permalink)
                 .setDescription(charCounter(data.text, 2048, true))
-                .setFooter(`Source: ${data.source}`)
+                .setFooter(`Source: ${data.source}`);
 
             message.channel.send(embed);
         } catch (error) {
@@ -47,5 +47,5 @@ export default {
             }
             console.error(error);
         }
-    }
+    },
 } as Command;
