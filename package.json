@@ -10,6 +10,7 @@
     "dev": "node -r dotenv/config .",
     "ts-dev": "ts-node-dev -r dotenv/config ./src/index.ts",
     "ts:watch": "tsc --watch",
+    "ts-node": "ts-node-dev",
     "test": "jest"
   },
   "engines": {
