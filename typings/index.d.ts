@@ -43,5 +43,5 @@ export interface Route {
 export interface EventHandler {
     name: keyof Discord.ClientEvents;
     type: "on" | "once";
-    handler(client: Client, ...args: unknown): Promise<void> | void;
+    handler(...args: unknown): Promise<void> | void;
 }

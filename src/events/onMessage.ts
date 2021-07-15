@@ -63,7 +63,7 @@ function parseCommand(message: Message) {
 export default {
     name: "message",
     type: "on",
-    async handler(_, message: Message) {
+    async handler(message: Message) {
         if (!isValidMessage(message)) {
             return;
         }

@@ -11,9 +11,7 @@ import client from "./classes/Client";
             .default;
 
         // Either client.on() or client.once()
-        client[event.type](event.name, (...args) =>
-            event.handler(client, ...args)
-        );
+        client[event.type](event.name, (...args) => event.handler(...args));
     }
 
     try {

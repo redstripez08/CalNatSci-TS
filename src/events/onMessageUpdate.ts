@@ -5,7 +5,7 @@ import prisma from "../classes/PrismaClient";
 export default {
     name: "messageUpdate",
     type: "on",
-    async handler(_, message: Message) {
+    async handler(message: Message) {
         // Prevent's caching it's own deleted messages
         if (message.author?.bot) return;
 
