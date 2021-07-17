@@ -1,4 +1,3 @@
 [submodule "CalNatSci-TS-server"]
 	path = CalNatSci-TS-server
 	url = https://github.com/redstripez08/CalNatSci-TS-server
-	branch = main
