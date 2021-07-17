@@ -1,10 +1,10 @@
 import { AxiosResponse } from "axios";
 import { MessageEmbed } from "discord.js";
 import { DateTime } from "luxon";
-import { Link } from "../../classes";
+import Link from "../../classes/Link";
 import { Command } from "../../../typings";
 import { axiosErrorHandler, charCounter, randomHex } from "../../utils";
-const { TIMEZONE = "UTC"} = process.env;
+const { TIMEZONE = "UTC" } = process.env;
 
 interface Response extends AxiosResponse {
     data: {
@@ -12,7 +12,7 @@ interface Response extends AxiosResponse {
             definition: string;
             permalink: string;
             thumbs_up: number;
-            sound_urls: Array<any>;
+            sound_urls: Array<unknown>;
             author: string;
             word: string;
             defid: number;
@@ -20,8 +20,8 @@ interface Response extends AxiosResponse {
             written_on: string;
             example: string;
             thumbs_down: number;
-        }>
-    } 
+        }>;
+    };
 }
 
 function swapLinks(matches: RegExpMatchArray, str: string): string {
@@ -30,7 +30,10 @@ function swapLinks(matches: RegExpMatchArray, str: string): string {
             // Removes brackets surrounding word
             const linkWord = link.slice(1, -1);
             const regex = new RegExp(`\\[${linkWord}\\]`);
-            const embedLink = `[${linkWord}](https://www.urbandictionary.com/define.php?term=${linkWord.replace(/ +/g, "%20")})`;
+            const embedLink = `[${linkWord}](https://www.urbandictionary.com/define.php?term=${linkWord.replace(
+                / +/g,
+                "%20"
+            )})`;
             str = str.replace(regex, embedLink);
         }
     }
@@ -49,39 +52,47 @@ export default {
     async execute(message, args) {
         try {
             const link = new Link("https://api.urbandictionary.com/v0/define", {
-                querystring: {term: args.join(" ")},
-                headers: {"Accept": "application/json"}
+                querystring: { term: args.join(" ") },
+                headers: { Accept: "application/json" },
             });
 
             const { data }: Response = await link.get();
-            if (!data.list.length) return message.channel.send("No Results Found!");
-            
+            if (!data.list.length)
+                return message.channel.send("No Results Found!");
+
             // TODO create flags for getting specific ranking of definiton
             // const flags = args.filter(str => /(-[A-Z]|--\b[A-Z]{0,20}\b)+/gi.test(str));
-            
+
             // const ahh = flags.find(flag => /-r=.{0,2}/);
             // console.log(flags);
             // console.log(ahh);
 
             const res = data.list[0];
-            const date = DateTime.fromISO(res.written_on).setZone(TIMEZONE).toFormat("yyyy LLL dd, t ZZZZ");
+            const date = DateTime.fromISO(res.written_on)
+                .setZone(TIMEZONE)
+                .toFormat("yyyy LLL dd, t ZZZZ");
 
-            const ud_links = /\[(\w| |\d){0,}\]/gi
+            const ud_links = /\[(\w| |\d){0,}\]/gi;
             const linkMatches = res.definition.match(ud_links) || [];
             const exLinkMatches = res.example.match(ud_links) || [];
 
             const definition = swapLinks(linkMatches, res.definition);
             const example = swapLinks(exLinkMatches, res.example);
-                        
+
             const embed = new MessageEmbed()
                 .setTitle(res.word)
                 .setURL(res.permalink)
                 .setAuthor("Author: " + res.author)
                 .setColor(randomHex())
                 .setDescription(charCounter(definition, 2048, true))
-                .addField("Example", charCounter(example, 1024, true) || "No Example")
-                .setFooter(`${res.thumbs_up} 👍\t${res.thumbs_down} 👎\nWritten on: ${date}`);
-            
+                .addField(
+                    "Example",
+                    charCounter(example, 1024, true) || "No Example"
+                )
+                .setFooter(
+                    `${res.thumbs_up} 👍\t${res.thumbs_down} 👎\nWritten on: ${date}`
+                );
+
             message.channel.send(embed);
         } catch (error) {
             if (error.isAxiosError) {
@@ -89,5 +100,5 @@ export default {
             }
             console.error(error);
         }
-    }
+    },
 } as Command;

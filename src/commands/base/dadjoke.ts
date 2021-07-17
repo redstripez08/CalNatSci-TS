@@ -1,11 +1,11 @@
-import Link from '../../classes/Link';
-import { Command } from '../../../typings';
-import { axiosErrorHandler, charCounter } from '../../utils';
+import Link from "../../classes/Link";
+import { Command } from "../../../typings";
+import { axiosErrorHandler, charCounter } from "../../utils";
 
 const link = new Link("https://icanhazdadjoke.com/", {
     headers: {
-        "accept": "text/plain"
-    }
+        accept: "text/plain",
+    },
 });
 
 export default {
@@ -20,12 +20,13 @@ export default {
     async execute(message) {
         try {
             const res = await link.get();
-            message.channel.send(charCounter(res.data, 2048, true));            
+
+            message.channel.send(charCounter(res.data, 2048, true));
         } catch (error) {
             if (error.isAxiosError) {
                 return axiosErrorHandler(message, error);
             }
             console.error(error);
         }
-    }
+    },
 } as Command;

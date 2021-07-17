@@ -1,2 +1,2 @@
-web: npm run server:start
+web: npm --prefix CalNatSci-TS-server start
 worker: npm start

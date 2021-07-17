@@ -1,20 +1,20 @@
 import { AxiosResponse } from "axios";
 import { MessageEmbed } from "discord.js";
 import { Command } from "../../../typings";
-import { Link } from "../../classes";
+import Link from "../../classes/Link";
 import { axiosErrorHandler, randomHex } from "../../utils";
 
 const link = new Link("/api/breeds/image/random/", "https://dog.ceo/", {
     headers: {
-        accept: "application/json"
-    }
+        accept: "application/json",
+    },
 });
 
 interface Response extends AxiosResponse {
     data: {
         message: string;
         status: string;
-    }
+    };
 }
 
 export default {
@@ -39,5 +39,5 @@ export default {
                 return axiosErrorHandler(message, error);
             }
         }
-    }
-} as Command
+    },
+} as Command;
