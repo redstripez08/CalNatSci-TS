@@ -6,14 +6,6 @@ CalNatSci Discord Bot rewritten in TypeScript.
 
 [![Docker Image CI](https://github.com/redstripez08/CalNatSci-TS/actions/workflows/docker-image.yml/badge.svg?branch=v2)](https://github.com/redstripez08/CalNatSci-TS/actions/workflows/docker-image.yml)
 
-Massive Refactoring ahead.
-
-## Todo
-
--   Use Fastify for server
--   Refactor and make code better
--   I'll think of more eventually
-
 **Disclaimer: This bot is not affiliated with CalNatSci**  
 I might change the name of the bot and repo at some point eventually. Dunno, the reason i named it
 like this is because it was originally handle school stuff for myself and some friends, such as Wikipedia searching and some other fun commands. I was going to use the Google Classroom API to show new assignments and announcements right in Discord, but i gave up since the authorization process is confusing AF and the packages are large AF as well.
