@@ -12,7 +12,7 @@
     "ts:watch": "tsc --watch",
     "ts-node": "ts-node-dev",
     "test": "jest",
-    "heroku-postbuild": "tsc && npm --prefix CalNatSci-TS-server ci && npm --prefix CalNatSci-TS-server run build",
+    "heroku-postbuild": "tsc && npm --prefix CalNatSci-TS-server ci",
     "heroku-cleanup": "npm --prefix CalNatSci-TS-server prune --production"
   },
   "engines": {
