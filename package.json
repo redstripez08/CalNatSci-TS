@@ -11,7 +11,9 @@
     "ts-dev": "ts-node-dev -r dotenv/config ./src/index.ts",
     "ts:watch": "tsc --watch",
     "ts-node": "ts-node-dev",
-    "test": "jest"
+    "test": "jest",
+    "heroku-postbuild": "tsc && npm --prefix CalNatSci-TS-server ci && npm --prefix CalNatSci-TS-server run build",
+    "heroku-cleanup": "npm --prefix CalNatSci-TS-server prune --production"
   },
   "engines": {
     "node": "^14.15.1",
